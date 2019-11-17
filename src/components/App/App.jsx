@@ -3,14 +3,21 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { Header } from './AppStyle';
-import { Login } from '../Login/Login';
+import Login from '../Login/Login';
 import Settings from '../Settings/Settings';
-import Dashbord from '../Dashboard/Dashbord';
 import FrameOfDashbord from '../FrameOfDashbord/FrameOfDashbord';
+import Dashbord from '../Dashboard/Dashbord';
+import CardContent from '../CardContent/CardContent';
+
+const mapStateToProps = (state) => {
+  const { authorization: { isAuthorized }, uiState: { openedCardDescription } } = state;
+  return { isAuthorized, openedCardDescription };
+};
 
 class App extends Component {
   constructor(props) {
@@ -20,11 +27,21 @@ class App extends Component {
     };
   }
 
+  renderDashbord = (openedCardDescription) => (
+    <FrameOfDashbord>
+      {openedCardDescription === null ? <Dashbord /> : <CardContent />}
+    </FrameOfDashbord>
+  )
+
+  renderSettings = () => (
+    <FrameOfDashbord>
+      <Settings />
+    </FrameOfDashbord>
+  )
+
   render() {
-    // sourceCoinMarketCap.getData(1, 5, console.log);
-    // .then((value) => this.setState({ gg: value }));
-    console.log(Math.random().toString(36).substr(2));
     const { gg } = this.state;
+    const { isAuthorized, openedCardDescription } = this.props;
     return (
       <div>
         <Router>
@@ -32,15 +49,13 @@ class App extends Component {
             <Header>{gg}</Header>
             <Switch>
               <Route path="/dashbord">
-                <FrameOfDashbord>
-                  <Dashbord />
-                </FrameOfDashbord>
+                {isAuthorized ? this.renderDashbord(openedCardDescription) : <Redirect to="/" />}
               </Route>
               <Route path="/settings">
-                <Settings />
+                {isAuthorized ? this.renderSettings() : <Redirect to="/" />}
               </Route>
               <Route path="/">
-                <Login />
+                {isAuthorized ? <Redirect to="/dashbord" /> : <Login />}
               </Route>
             </Switch>
           </div>
@@ -50,4 +65,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps)(App);

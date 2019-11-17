@@ -1,39 +1,71 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../redux/actions/index';
+import SettingsUserActive from '../SettingsUserActive/SettingsUserActive';
+import SettingsUserAdder from '../SettingsUserAdder/SettingsUserAdder';
+import SettingsUserEditor from '../SettingsUserEditor/SettingsUserEditor';
 
 const mapStateToProps = (state) => {
-  const { users: { byId, allIds } } = state;
+  const {
+    users: {
+      byId,
+      allIds,
+      activeUser
+    },
+    uiState: {
+      settingsUIState,
+      settingsEdittableUser
+    }
+  } = state;
   const users = allIds.map((id) => byId[id]);
-  return { users };
+  return {
+    users,
+    activeUserData: byId[activeUser],
+    activeUserId: activeUser,
+    settingsUIState,
+    edittableUserData: byId[settingsEdittableUser]
+  };
 };
 
 const actionCreators = {
   addUser: actions.addUser,
-  removeUser: actions.removeUser
+  removeUser: actions.removeUser,
+  onActiveUserSettingsView: actions.onActiveUserSettingsView,
+  onAddUserSettingsView: actions.onAddUserSettingsView,
+  onEditUserSettingsView: actions.onEditUserSettingsView
 };
 
 class NewUserForm extends React.Component {
-  handleAddUser = ({ firstName, secondName }) => {
-    const { addUser, users, reset } = this.props;
-    const user = {
-      id: users.length === 0 ? 1 : (users[0].id + 1),
-      firstName,
-      secondName
-    };
-    addUser({ user });
-    reset();
-  }
 
   handleRemoveUser = (id) => () => {
     const { removeUser } = this.props;
     removeUser({ id });
   }
 
+  handleEditUser = (id) => () => {
+    const { onEditUserSettingsView } = this.props;
+    onEditUserSettingsView({ id });
+  }
+
+  handleOnActiveUserView = () => () => {
+    const { onActiveUserSettingsView } = this.props;
+    onActiveUserSettingsView();
+  }
+
+  handleOnAddUserView = () => () => {
+    const { onAddUserSettingsView } = this.props;
+    onAddUserSettingsView();
+  }
+
   render() {
-    const { handleSubmit, users } = this.props;
+    const {
+      users,
+      activeUserId,
+      activeUserData,
+      settingsUIState,
+      edittableUserData
+    } = this.props;
 
     const removeUserButton = (id) => (
       <button type="button" onClick={this.handleRemoveUser(id)}>
@@ -41,41 +73,60 @@ class NewUserForm extends React.Component {
       </button>
     );
 
+    const editUserButton = (id) => (
+      <button type="button" onClick={this.handleEditUser(id)}>
+        <span>edit</span>
+      </button>
+    );
+
+    const viewSellector = (edittableUserData, activeUserData) => ({
+      addUser: <SettingsUserAdder />,
+      activeUser: <SettingsUserActive activeUserData={activeUserData} />,
+      editUser: <SettingsUserEditor initialValues={edittableUserData} />
+    });
+
     return (
       <div>
         <div>
           <Link to="/dashbord">Back</Link>
         </div>
-        <form className="form-inline" onSubmit={handleSubmit(this.handleAddUser)}>
-          <div className="form-group mx-3">
-            <Field name="firstName" required component="input" type="text" />
+        <div>
+          <div>
+            <div>
+              <div>
+                <button type="button" onClick={this.handleOnActiveUserView()}>
+                  <span>Active user data</span>
+                </button>
+              </div>
+              <div>
+                <button type="button" onClick={this.handleOnAddUserView()}>
+                  <span>Add user</span>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="form-group mx-3">
-            <Field name="secondName" required component="input" type="text" />
+          {viewSellector(edittableUserData, activeUserData)[settingsUIState]}
+          <div>
+            <ul>
+              {users.map(({
+                id,
+                firstName,
+                secondName
+              }) => (
+                <li key={`user-${id}`}>
+                  <span>
+                    {activeUserId === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
+                  </span>
+                  {editUserButton(id)}
+                  {activeUserId === id ? null : removeUserButton(id)}
+                </li>
+              ))}
+            </ul>
           </div>
-          <input type="submit" value="Add" />
-        </form>
-        <ul>
-          {users.map(({
-            id,
-            firstName,
-            secondName,
-            activateUser
-          }) => (
-            <li key={`user-${id}`}>
-              <span>
-                {`${firstName} ${secondName}`}
-              </span>
-              {activateUser === id ? null : removeUserButton(id)}
-            </li>
-          ))}
-        </ul>
+        </div>
       </div>
     );
   }
 }
 
-const ConnectedNewUserForm = connect(mapStateToProps, actionCreators)(NewUserForm);
-export default reduxForm({
-  form: 'newUser'
-})(ConnectedNewUserForm);
+export default connect(mapStateToProps, actionCreators)(NewUserForm);

@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../redux/actions/index';
 import Card from '../Card/Card';
 
 const mapStateToProps = (state) => {
-  const { cards: { showedCards, openedCard } } = state;
-  return { showedCards, openedCard };
-};
-
-const actionCreators = {
-  addUser: actions.addUser,
-  removeUser: actions.removeUser
+  const { users: { byId, activeUser } } = state;
+  if (!Object.prototype.hasOwnProperty.call(byId, activeUser)) {
+    return { showedCards: [] };
+  }
+  return { showedCards: byId[activeUser].userCards };
 };
 
 class Dashbord extends Component {
-  handleSetOpenedCard = (name) => () => {
-    console.log(name);
-    const { setOpenedCard } = this.props;
-    setOpenedCard({ name });
-  }
 
   renderCards = (showedCards) => showedCards.map(
     (cardData) => (
       <Card
         key={cardData.name}
         cardData={cardData}
-        onClick={this.handleSetOpenedCard(cardData.name)}
       />
     )
   )
@@ -40,4 +31,4 @@ class Dashbord extends Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Dashbord);
+export default connect(mapStateToProps)(Dashbord);

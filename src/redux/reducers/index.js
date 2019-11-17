@@ -4,7 +4,6 @@ import { reducer as formReducer } from 'redux-form';
 import omit from 'ramda/src/omit';
 import without from 'ramda/src/without';
 import * as actions from '../actions';
-import cardsData from '../../Data/data';
 
 const users = handleActions({
   [actions.addUser](state, { payload: { user } }) {
@@ -13,6 +12,13 @@ const users = handleActions({
       ...state,
       byId: { ...byId, [user.id]: user },
       allIds: [user.id, ...allIds]
+    };
+  },
+  [actions.editUser](state, { payload: { user } }) {
+    const { byId } = state;
+    return {
+      ...state,
+      byId: { ...byId, [user.id]: user }
     };
   },
   [actions.removeUser](state, { payload: { id } }) {
@@ -29,34 +35,104 @@ const users = handleActions({
       activeUser: id
     };
   }
-}, { byId: {}, allIds: [], activeUser: null });
+}, {
+  byId: {},
+  allIds: [],
+  activeUser: null
+});
+
 
 const authorization = handleActions({
-  [actions.toggleAuthorization](state, { payload: { isAuthorized } }) {
+  [actions.authorize](state, { payload: { isAuthorized } }) {
     return {
-      auth: isAuthorized
+      isAuthorized
     };
   }
-}, { auth: false });
+}, { isAuthorized: false });
 
-const cards = handleActions({
-  [actions.setOpenedCard](state, { payload: { openedCard } }) {
+
+const cardDataState = handleActions({
+  [actions.closeCard](state) {
     return {
       ...state,
-      openedCard
+      openedCardData: null
+    };
+  },
+  [actions.updateCardDataRequest](state) {
+    return {
+      ...state,
+      cardDataRequestState: 'requested'
+    };
+  },
+  [actions.updateCardDataSuccess](state, { payload: { openedCardData } }) {
+    return {
+      ...state,
+      cardDataRequestState: 'finished',
+      openedCardData
+    };
+  },
+  [actions.updateCardDataFailure](state) {
+    return {
+      ...state,
+      cardDataRequestState: 'failed'
+    };
+  }
+}, {
+  cardDataRequestState: 'finished',
+  openedCardData: null
+});
+
+
+const uiState = handleActions({
+  [actions.setOpenedCard](state, { payload: { openedCardDescription } }) {
+    return {
+      ...state,
+      openedCardDescription
     };
   },
   [actions.activateUser](state) {
     return {
       ...state,
-      showedCards: cardsData(3)
+      openedCardDescription: null
+    };
+  },
+  [actions.closeCard](state) {
+    return {
+      ...state,
+      openedCardDescription: null
+    };
+  },
+  [actions.onActiveUserSettingsView](state) {
+    return {
+      ...state,
+      settingsUIState: 'activeUser',
+      settingsEdittableUser: null
+    };
+  },
+  [actions.onAddUserSettingsView](state) {
+    return {
+      ...state,
+      settingsUIState: 'addUser',
+      settingsEdittableUser: null
+    };
+  },
+  [actions.onEditUserSettingsView](state, { payload: { id } }) {
+    return {
+      ...state,
+      settingsUIState: 'editUser',
+      settingsEdittableUser: id
     };
   }
-}, { showedCards: [], openedCard: null });
+}, {
+  settingsUIState: 'addUser',
+  settingsEdittableUser: null,
+  openedCardDescription: null
+});
 
 export default combineReducers({
   form: formReducer,
   users,
   authorization,
-  cards
+  cardDataState,
+  uiState
 });

@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions/index';
 
-
 const mapStateToProps = (state) => {
-  const { users: { byId, allIds, activeUser } } = state;
+  const { users: { byId, allIds, activeUser }} = state;
   const users = allIds.map((id) => byId[id]);
   return { users, activeUser };
 };
@@ -29,9 +28,9 @@ class FrameOfDashbord extends React.Component {
       }) => (
         <li key={`user-${id}`}>
           <span>
-            <Link to="/dashbord" onClick={this.handleActivateUser(id)}>
+            <a onClick={this.handleActivateUser(id)}>
               {activeUser === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
-            </Link>
+            </a>
           </span>
         </li>
       ))}

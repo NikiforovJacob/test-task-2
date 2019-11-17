@@ -10,7 +10,7 @@ const allPromises = (from, to, configsSources) => {
   return flatten(promisesCollections);
 };
 
-const getData = (allConfigsSources) => (from, to, cb) => {
+const getData = (allConfigsSources) => (from, to, cb, cbError) => {
   Promise.all(allPromises(from, to, allConfigsSources))
     .then(
       (responses) => responses.map(
@@ -38,7 +38,10 @@ const getData = (allConfigsSources) => (from, to, cb) => {
 
         )
     )
-    .catch((e) => console.error(e));
+    .catch((e) => {
+      console.error(e);
+      cbError();
+    });
 };
 
 export default (name, description, allConfigsSources) => ({
