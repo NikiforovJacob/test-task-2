@@ -21,8 +21,16 @@ const users = handleActions({
       byId: { ...byId, [user.id]: user }
     };
   },
-  [actions.removeUser](state, { payload: { id } }) {
+  [actions.removeUser](state, { payload: { id, isActive } }) {
     const { byId, allIds } = state;
+    if (isActive) {
+      return {
+        ...state,
+        byId: omit([id], byId),
+        allIds: without([id], allIds),
+        activeUser: null
+      };
+    }
     return {
       ...state,
       byId: omit([id], byId),
@@ -122,6 +130,23 @@ const uiState = handleActions({
       settingsUIState: 'editUser',
       settingsEdittableUser: id
     };
+  },
+  [actions.removeUser](state, { payload: { id, isActive } }) {
+    const { settingsEdittableUser, settingsUIState } = state;
+    if (id === settingsEdittableUser) {
+      return {
+        ...state,
+        settingsUIState: 'addUser',
+        settingsEdittableUser: null
+      };
+    }
+    if (isActive && settingsUIState === 'activeUser') {
+      return {
+        ...state,
+        settingsUIState: 'addUser'
+      };
+    }
+    return state;
   }
 }, {
   settingsUIState: 'addUser',

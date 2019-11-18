@@ -6,11 +6,16 @@ import getCardsDescriptions from '../../Data/data';
 import FieldInput from '../FieldInput/FieldInput';
 
 const mapStateToProps = (state) => {
-  const { users: { allIds } } = state;
-  return { allIds };
+  const { users: { byId, allIds }, uiState: { settingsUIState, settingsEdittableUser } } = state;
+  if (settingsUIState === 'editUser') {
+    const editableUser = byId[settingsEdittableUser];
+    return { initialValues: editableUser, editableUser, settingsUIState };
+  }
+  return { allIds, settingsUIState };
 };
 
 const actionCreators = {
+  editUser: actions.editUser,
   addUser: actions.addUser
 };
 
@@ -36,7 +41,28 @@ const validate = (values) => {
   return errors;
 };
 
-class SettingsUserAdder extends React.Component {
+class SettingsUserAdderEditor extends React.Component {
+  handleEditUser = ({
+    firstName,
+    secondName,
+    patronymic,
+    about,
+    email,
+    sex
+  }) => {
+    const { editUser, initialValues } = this.props;
+    const user = {
+      ...initialValues,
+      firstName,
+      secondName,
+      patronymic,
+      email,
+      sex,
+      about
+    };
+    editUser({ user });
+  }
+
   handleAddUser = ({
     firstName,
     secondName,
@@ -61,12 +87,17 @@ class SettingsUserAdder extends React.Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, editableUser, settingsUIState } = this.props;
+
+    const headerOfEditor = (editableUser) => (
+      <h3>{`Edit data of ${editableUser.firstName} ${editableUser.secondName}`}</h3>
+    );
+    const headerOfAdder = <h3>Add new user</h3>;
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.handleAddUser)}>
-          <h3>Add new user</h3>
+        <form onSubmit={handleSubmit(settingsUIState === 'addUser' ? this.handleAddUser : this.handleEditUser)}>
+          {settingsUIState === 'addUser' ? headerOfAdder : headerOfEditor(editableUser)}
           <div>
             <div>
               <Field
@@ -137,15 +168,17 @@ class SettingsUserAdder extends React.Component {
               />
             </div>
           </div>
-          <input type="submit" value="Add" />
+          <input type="submit" value={settingsUIState === 'addUser' ? 'Add' : 'Edit'} />
         </form>
       </div>
     );
   }
 }
 
-const ConnectedSettingsUserAdder = connect(mapStateToProps, actionCreators)(SettingsUserAdder);
-export default reduxForm({
-  form: 'newUser',
-  validate
-})(ConnectedSettingsUserAdder);
+export default connect(mapStateToProps, actionCreators)(
+  reduxForm({
+    form: 'editUser',
+    validate,
+    enableReinitialize: true
+  })(SettingsUserAdderEditor)
+);

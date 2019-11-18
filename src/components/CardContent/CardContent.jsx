@@ -62,7 +62,7 @@ class CardContent extends Component {
 
     return (
       <div>
-        <div onClick={this.handleCloseCard}>Go back</div>
+        <a onClick={this.handleCloseCard}>Go back</a>
         <div>{openedCardDescription.name}</div>
         <div>{openedCardDescription.description}</div>
         {getContentRender[cardDataRequestState](openedCardData)}

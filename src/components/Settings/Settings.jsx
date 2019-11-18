@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions/index';
 import SettingsUserActive from '../SettingsUserActive/SettingsUserActive';
-import SettingsUserAdder from '../SettingsUserAdder/SettingsUserAdder';
-import SettingsUserEditor from '../SettingsUserEditor/SettingsUserEditor';
+import SettingsUserAdderEditor from '../SettingsUserEditor/SettingsUserAdderEditor';
 
 const mapStateToProps = (state) => {
   const {
@@ -14,8 +13,7 @@ const mapStateToProps = (state) => {
       activeUser
     },
     uiState: {
-      settingsUIState,
-      settingsEdittableUser
+      settingsUIState
     }
   } = state;
   const users = allIds.map((id) => byId[id]);
@@ -23,8 +21,7 @@ const mapStateToProps = (state) => {
     users,
     activeUserData: byId[activeUser],
     activeUserId: activeUser,
-    settingsUIState,
-    edittableUserData: byId[settingsEdittableUser]
+    settingsUIState
   };
 };
 
@@ -38,9 +35,10 @@ const actionCreators = {
 
 class NewUserForm extends React.Component {
 
-  handleRemoveUser = (id) => () => {
+  handleRemoveUser = (id, activeUserId) => () => {
     const { removeUser } = this.props;
-    removeUser({ id });
+    const isActive = id === activeUserId;
+    removeUser({ id, isActive });
   }
 
   handleEditUser = (id) => () => {
@@ -63,12 +61,11 @@ class NewUserForm extends React.Component {
       users,
       activeUserId,
       activeUserData,
-      settingsUIState,
-      edittableUserData
+      settingsUIState
     } = this.props;
 
     const removeUserButton = (id) => (
-      <button type="button" onClick={this.handleRemoveUser(id)}>
+      <button type="button" onClick={this.handleRemoveUser(id, activeUserId)}>
         <span>&times;</span>
       </button>
     );
@@ -78,11 +75,10 @@ class NewUserForm extends React.Component {
         <span>edit</span>
       </button>
     );
-
-    const viewSellector = (edittableUserData, activeUserData) => ({
-      addUser: <SettingsUserAdder />,
+    const settingsModeSellector = (activeUserData) => ({
+      addUser: <SettingsUserAdderEditor />,
       activeUser: <SettingsUserActive activeUserData={activeUserData} />,
-      editUser: <SettingsUserEditor initialValues={edittableUserData} />
+      editUser: <SettingsUserAdderEditor />
     });
 
     return (
@@ -94,8 +90,8 @@ class NewUserForm extends React.Component {
           <div>
             <div>
               <div>
-                <button type="button" onClick={this.handleOnActiveUserView()}>
-                  <span>Active user data</span>
+                <button type="button" disabled={activeUserId === null} onClick={this.handleOnActiveUserView()}>
+                  <span>View active user</span>
                 </button>
               </div>
               <div>
@@ -105,7 +101,7 @@ class NewUserForm extends React.Component {
               </div>
             </div>
           </div>
-          {viewSellector(edittableUserData, activeUserData)[settingsUIState]}
+          {settingsModeSellector(activeUserData)[settingsUIState]}
           <div>
             <ul>
               {users.map(({
@@ -118,7 +114,7 @@ class NewUserForm extends React.Component {
                     {activeUserId === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
                   </span>
                   {editUserButton(id)}
-                  {activeUserId === id ? null : removeUserButton(id)}
+                  {removeUserButton(id)}
                 </li>
               ))}
             </ul>

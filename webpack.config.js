@@ -10,12 +10,12 @@ module.exports = {
         options: {
           presets: [
             '@babel/preset-env',
-            '@babel/preset-react',
+            '@babel/preset-react'
           ],
           plugins: [
-            '@babel/transform-runtime',
-          ],
-        },
+            '@babel/transform-runtime'
+          ]
+        }
       },
       { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
       { test: /\.html$/, use: { loader: 'html-loader' } },
@@ -26,26 +26,26 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-            },
-          },
-        ],
-      },
-    ],
+              modules: true
+            }
+          }
+        ]
+      }
+    ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx']
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   output: {
-    publicPath: '/',
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html',
-    }),
-  ],
+      filename: './index.html'
+    })
+  ]
 };
