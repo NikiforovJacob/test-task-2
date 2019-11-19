@@ -17,7 +17,7 @@ module.exports = {
           ]
         }
       },
-      { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
+      // { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
       { test: /\.html$/, use: { loader: 'html-loader' } },
       {
         test: /\.css$/i,

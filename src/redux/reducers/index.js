@@ -4,44 +4,58 @@ import { reducer as formReducer } from 'redux-form';
 import omit from 'ramda/src/omit';
 import without from 'ramda/src/without';
 import * as actions from '../actions';
+import { saveObjectToSessionStorage } from '../../utils/utils';
 
 const users = handleActions({
+  [actions.initializeUsersState](state, { payload: { appDataUsers } }) {
+    return appDataUsers;
+  },
   [actions.addUser](state, { payload: { user } }) {
     const { byId, allIds } = state;
-    return {
+    const newState = {
       ...state,
       byId: { ...byId, [user.id]: user },
       allIds: [user.id, ...allIds]
     };
+    saveObjectToSessionStorage('appDataUsers', newState);
+    return newState;
   },
   [actions.editUser](state, { payload: { user } }) {
     const { byId } = state;
-    return {
+    const newState = {
       ...state,
       byId: { ...byId, [user.id]: user }
     };
+    saveObjectToSessionStorage('appDataUsers', newState);
+    return newState;
   },
   [actions.removeUser](state, { payload: { id, isActive } }) {
     const { byId, allIds } = state;
     if (isActive) {
-      return {
+      const newState = {
         ...state,
         byId: omit([id], byId),
         allIds: without([id], allIds),
         activeUser: null
       };
+      saveObjectToSessionStorage('appDataUsers', newState);
+      return newState;
     }
-    return {
+    const newState = {
       ...state,
       byId: omit([id], byId),
       allIds: without([id], allIds)
     };
+    saveObjectToSessionStorage('appDataUsers', newState);
+    return newState;
   },
   [actions.activateUser](state, { payload: { id } }) {
-    return {
+    const newState = {
       ...state,
       activeUser: id
     };
+    saveObjectToSessionStorage('appDataUsers', newState);
+    return newState;
   }
 }, {
   byId: {},

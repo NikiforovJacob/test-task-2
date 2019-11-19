@@ -6,6 +6,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as actions from '../../redux/actions/index';
+import { getObjectFromSessionStorage } from '../../utils/utils';
 
 import { Header } from './AppStyle';
 import Login from '../Login/Login';
@@ -19,12 +21,24 @@ const mapStateToProps = (state) => {
   return { isAuthorized, openedCardDescription };
 };
 
+const actionCreators = {
+  initializeUsersState: actions.initializeUsersState
+};
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       gg: 'test-task'
     };
+  }
+
+  componentDidMount() {
+    const { initializeUsersState } = this.props;
+    const appDataUsers = getObjectFromSessionStorage('appDataUsers');
+    if (appDataUsers !== null) {
+      initializeUsersState({ appDataUsers });
+    }
   }
 
   renderDashbord = (openedCardDescription) => (
@@ -65,4 +79,4 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, actionCreators)(App);

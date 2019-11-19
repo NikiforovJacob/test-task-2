@@ -4,6 +4,7 @@ export const addUser = createAction('USER_ADD');
 export const removeUser = createAction('USER_REMOVE');
 export const editUser = createAction('USER_EDIT');
 export const activateUser = createAction('USER_ACTIVATE');
+export const initializeUsersState = createAction('USERS_INITIALIZE');
 
 export const authorize = createAction('AUTHORIZATION_TOGGLE');
 
