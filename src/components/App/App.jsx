@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
 import { getObjectFromSessionStorage } from '../../utils/utils';
 
-import { Header } from './AppStyle';
 import Login from '../Login/Login';
 import Settings from '../Settings/Settings';
 import FrameOfDashbord from '../FrameOfDashbord/FrameOfDashbord';
@@ -26,17 +25,11 @@ const actionCreators = {
 };
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gg: 'test-task'
-    };
-  }
-
   componentDidMount() {
     const { initializeUsersState } = this.props;
     const appDataUsers = getObjectFromSessionStorage('appDataUsers');
     if (appDataUsers !== null) {
+      console.log('stateInit')
       initializeUsersState({ appDataUsers });
     }
   }
@@ -54,27 +47,21 @@ class App extends Component {
   )
 
   render() {
-    const { gg } = this.state;
     const { isAuthorized, openedCardDescription } = this.props;
     return (
-      <div>
-        <Router>
-          <div>
-            <Header>{gg}</Header>
-            <Switch>
-              <Route path="/dashbord">
-                {isAuthorized ? this.renderDashbord(openedCardDescription) : <Redirect to="/" />}
-              </Route>
-              <Route path="/settings">
-                {isAuthorized ? this.renderSettings() : <Redirect to="/" />}
-              </Route>
-              <Route path="/">
-                {isAuthorized ? <Redirect to="/dashbord" /> : <Login />}
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/dashbord">
+            {isAuthorized ? this.renderDashbord(openedCardDescription) : <Redirect to="/" />}
+          </Route>
+          <Route path="/settings">
+            {isAuthorized ? this.renderSettings() : <Redirect to="/" />}
+          </Route>
+          <Route path="/">
+            {isAuthorized ? <Redirect to="/dashbord" /> : <Login />}
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }

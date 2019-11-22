@@ -1,11 +1,13 @@
 import React from 'react';
 
+import { Container, Input, Label, ValidationAnsver } from './FieldInputStyle';
+
 export default ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <label>{label}</label>
+  <Container>
+    <Label>{label}</Label>
     <div>
-      <input {...input} placeholder={label} type={type} />
-      {touched && ((error && <span>{error}</span>))}
+      <Input {...input} error={touched && error} placeholder={label} type={type} />
+      {touched && ((error && <ValidationAnsver>{error}</ValidationAnsver>))}
     </div>
-  </div>
+  </Container>
 );

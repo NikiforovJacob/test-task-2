@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Card from '../Card/Card';
+import { matchCardsDescriptionsByIDs } from '../../Data/data';
 
 const mapStateToProps = (state) => {
   const { users: { byId, activeUser } } = state;
   if (!Object.prototype.hasOwnProperty.call(byId, activeUser)) {
     return { showedCards: [] };
   }
-  return { showedCards: byId[activeUser].userCards };
+  const activeUserCardsIDs = byId[activeUser].userCardsIDs;
+  return { showedCards: matchCardsDescriptionsByIDs(activeUserCardsIDs) };
 };
 
 class Dashbord extends Component {

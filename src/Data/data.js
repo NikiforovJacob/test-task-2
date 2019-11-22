@@ -3,20 +3,30 @@ import spaceX from './sourceSpaceX';
 import sourceCoinMarketCap from './sourceCoinMarketCap';
 import sourceFiled from './sourceFiled';
 
-const allCardsSources = [pokemons, spaceX, sourceCoinMarketCap, sourceFiled];
+const allCardsSources = {
+  1: pokemons,
+  2: spaceX,
+  3: sourceCoinMarketCap,
+  4: sourceFiled
+};
 
-const getSources = (allCardsSources) => (amountOfSources) => {
-  const iter = (acc, allCardsSources) => {
+export const selectCardsIDs = (amountOfSources) => {
+  const allCardsSourcesKeys = Object.keys(allCardsSources);
+  const iter = (acc, allCardsSourcesKeys) => {
     if (acc.length === amountOfSources) {
       return acc;
     }
-    const numOfSource = Math.floor(Math.random() * allCardsSources.length);
-    const newAllCardsSourcesHead = allCardsSources.slice(0, numOfSource);
-    const newAllCardsSourcesReast = allCardsSources.slice(numOfSource + 1, allCardsSources.length);
+    const randomNumOfSource = Math.floor(Math.random() * allCardsSourcesKeys.length);
+    const newAllCardsSourcesHead = allCardsSourcesKeys.slice(0, randomNumOfSource);
+    const newAllCardsSourcesReast = allCardsSourcesKeys.slice(
+      randomNumOfSource + 1, allCardsSourcesKeys.length
+    );
     const newAllCardsSources = [...newAllCardsSourcesHead, ...newAllCardsSourcesReast];
-    return iter([...acc, allCardsSources[numOfSource]], newAllCardsSources);
+    return iter([...acc, allCardsSourcesKeys[randomNumOfSource]], newAllCardsSources);
   };
-  return iter([], allCardsSources);
+  return iter([], allCardsSourcesKeys);
 };
 
-export default getSources(allCardsSources);
+export const matchCardsDescriptionsByIDs = (selectedIDs) => selectedIDs.map(
+  (id) => allCardsSources[id]
+);

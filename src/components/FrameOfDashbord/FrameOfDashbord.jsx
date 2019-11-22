@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions/index';
 
+import { Framed, Header } from './FrameOfDashbordStyle';
+
 const mapStateToProps = (state) => {
   const { users: { byId, allIds, activeUser }} = state;
   const users = allIds.map((id) => byId[id]);
@@ -41,13 +43,13 @@ class FrameOfDashbord extends React.Component {
     const { users, activeUser, children } = this.props;
 
     return (
-      <div>
+      <Header>
         {users.length === 0 ? null : this.renderUsers(users, activeUser)}
         <Link to="/settings">Settings</Link>
-        <div>
+        <Framed>
           {children}
-        </div>
-      </div>
+        </Framed>
+      </Header>
     );
   }
 }

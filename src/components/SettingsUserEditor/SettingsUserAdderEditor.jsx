@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../redux/actions/index';
-import getCardsDescriptions from '../../Data/data';
+import { selectCardsIDs } from '../../Data/data';
 import FieldInput from '../FieldInput/FieldInput';
 
 const mapStateToProps = (state) => {
@@ -71,6 +71,7 @@ class SettingsUserAdderEditor extends React.Component {
     email,
     sex
   }) => {
+    console.log(selectCardsIDs(3));
     const { addUser, allIds, reset} = this.props;
     const user = {
       id: allIds.length === 0 ? 1 : (allIds[0] + 1),
@@ -80,7 +81,7 @@ class SettingsUserAdderEditor extends React.Component {
       email,
       sex,
       about,
-      userCards: getCardsDescriptions(3)
+      userCardsIDs: selectCardsIDs(3)
     };
     addUser({ user });
     reset();
@@ -177,7 +178,7 @@ class SettingsUserAdderEditor extends React.Component {
 
 export default connect(mapStateToProps, actionCreators)(
   reduxForm({
-    form: 'editUser',
+    form: 'add/editUser',
     validate,
     enableReinitialize: true
   })(SettingsUserAdderEditor)

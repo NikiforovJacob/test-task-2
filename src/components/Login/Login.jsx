@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
 import FieldInput from '../FieldInput/FieldInput';
 
+import { Container, Form, Button } from './LoginStyle';
+
 const mapStateToProps = (state) => {
   const { authorization: { auth } } = state;
   return { auth };
@@ -21,6 +23,9 @@ const validate = (values) => {
     errors.accountName = 'Must be 20 characters or less';
   } else if (!/^(?! )(?!.* $)(?!(?:.* )).*$/i.test(values.accountName)) {
     errors.accountName = 'Must have not spaces';
+  }
+  if (!values.password) {
+    errors.password = 'Required';
   }
   return errors;
 };
@@ -42,17 +47,13 @@ class Login extends React.Component {
     }
 
     return (
-      <div>
-        <form className="form-inline" onSubmit={handleSubmit(this.handleLogin)}>
-          <div className="form-group mx-3">
-            <Field name="accountName" component={FieldInput} label="Account name" type="text" />
-          </div>
-          <div className="form-group mx-3">
-            <Field name="password" required component={FieldInput} label="Password" type="password" />
-          </div>
-          <input type="submit" value="Log in" />
-        </form>
-      </div>
+      <Container>
+        <Form onSubmit={handleSubmit(this.handleLogin)}>
+          <Field name="accountName" component={FieldInput} label="Account name" type="text" />
+          <Field name="password" required component={FieldInput} label="Password" type="password" />
+          <Button type="submit" value="Log in" />
+        </Form>
+      </Container>
     );
   }
 }
