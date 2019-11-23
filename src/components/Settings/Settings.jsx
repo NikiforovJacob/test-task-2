@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
     users: {
       byId,
       allIds,
-      activeUser
+      activeUserID
     },
     uiState: {
       settingsUIState
@@ -19,8 +19,8 @@ const mapStateToProps = (state) => {
   const users = allIds.map((id) => byId[id]);
   return {
     users,
-    activeUserData: byId[activeUser],
-    activeUserId: activeUser,
+    activeUserData: byId[activeUserID],
+    activeUserID,
     settingsUIState
   };
 };
@@ -35,9 +35,9 @@ const actionCreators = {
 
 class NewUserForm extends React.Component {
 
-  handleRemoveUser = (id, activeUserId) => () => {
+  handleRemoveUser = (id, activeUserID) => () => {
     const { removeUser } = this.props;
-    const isActive = id === activeUserId;
+    const isActive = id === activeUserID;
     removeUser({ id, isActive });
   }
 
@@ -59,13 +59,13 @@ class NewUserForm extends React.Component {
   render() {
     const {
       users,
-      activeUserId,
+      activeUserID,
       activeUserData,
       settingsUIState
     } = this.props;
 
     const removeUserButton = (id) => (
-      <button type="button" onClick={this.handleRemoveUser(id, activeUserId)}>
+      <button type="button" onClick={this.handleRemoveUser(id, activeUserID)}>
         <span>&times;</span>
       </button>
     );
@@ -90,7 +90,7 @@ class NewUserForm extends React.Component {
           <div>
             <div>
               <div>
-                <button type="button" disabled={activeUserId === null} onClick={this.handleOnActiveUserView()}>
+                <button type="button" disabled={activeUserID === null} onClick={this.handleOnActiveUserView()}>
                   <span>View active user</span>
                 </button>
               </div>
@@ -111,7 +111,7 @@ class NewUserForm extends React.Component {
               }) => (
                 <li key={`user-${id}`}>
                   <span>
-                    {activeUserId === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
+                    {activeUserID === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
                   </span>
                   {editUserButton(id)}
                   {removeUserButton(id)}

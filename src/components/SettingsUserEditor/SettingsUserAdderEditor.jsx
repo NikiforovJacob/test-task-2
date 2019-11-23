@@ -48,7 +48,7 @@ class SettingsUserAdderEditor extends React.Component {
     patronymic,
     about,
     email,
-    sex
+    gender
   }) => {
     const { editUser, initialValues } = this.props;
     const user = {
@@ -57,7 +57,7 @@ class SettingsUserAdderEditor extends React.Component {
       secondName,
       patronymic,
       email,
-      sex,
+      gender,
       about
     };
     editUser({ user });
@@ -69,9 +69,8 @@ class SettingsUserAdderEditor extends React.Component {
     patronymic,
     about,
     email,
-    sex
+    gender
   }) => {
-    console.log(selectCardsIDs(3));
     const { addUser, allIds, reset} = this.props;
     const user = {
       id: allIds.length === 0 ? 1 : (allIds[0] + 1),
@@ -79,7 +78,7 @@ class SettingsUserAdderEditor extends React.Component {
       secondName,
       patronymic,
       email,
-      sex,
+      gender,
       about,
       userCardsIDs: selectCardsIDs(3)
     };
@@ -143,17 +142,17 @@ class SettingsUserAdderEditor extends React.Component {
             <label>Gender</label>
             <div>
               <label>
-                <Field name="sex" required component="input" type="radio" value="male" />
+                <Field name="gender" required component="input" type="radio" value="male" />
                 {' '}
                 Male
               </label>
               <label>
-                <Field name="sex" required component="input" type="radio" value="female" />
+                <Field name="gender" required component="input" type="radio" value="female" />
                 {' '}
                 Female
               </label>
               <label>
-                <Field name="sex" required component="input" type="radio" value="other" />
+                <Field name="gender" required component="input" type="radio" value="other" />
                 {' '}
                 Other
               </label>

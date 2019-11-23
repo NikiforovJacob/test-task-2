@@ -7,7 +7,7 @@ const SettingsUserEditor = (props) => {
     patronymic,
     about,
     email,
-    sex
+    gender
   } } = props;
 
   return (
@@ -32,7 +32,7 @@ const SettingsUserEditor = (props) => {
           {`Email  ${email}`}
         </div>
         <div>
-          {`Gender  ${sex}`}
+          {`Gender  ${gender}`}
         </div>
       </div>
     </div>

@@ -15,6 +15,9 @@ export const onActiveUserSettingsView = createAction('SETTINGS_VIEW_ACTIVE_USER'
 export const onAddUserSettingsView = createAction('SETTINGS_VIEW_ADD_USER');
 export const onEditUserSettingsView = createAction('SETTINGS_VIEW_EDIT_USER');
 
+export const hideActiveUserSelectors = createAction('ACTIVE_USER_SELECTOR_HIDE');
+export const toggleShownActiveUserSelectors = createAction('ACTIVE_USER_SELECTOR_SHOW_TOGGLE');
+
 export const updateCardDataRequest = createAction('CARD_DATA_UPDATE_REQUEST');
 export const updateCardDataSuccess = createAction('CARD_DATA_UPDATE_SUCCESS');
 export const updateCardDataFailure = createAction('CARD_DATA_UPDATE_FAILURE');

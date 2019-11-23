@@ -36,7 +36,7 @@ const users = handleActions({
         ...state,
         byId: omit([id], byId),
         allIds: without([id], allIds),
-        activeUser: null
+        activeUserID: null
       };
       saveObjectToSessionStorage('appDataUsers', newState);
       return newState;
@@ -52,7 +52,7 @@ const users = handleActions({
   [actions.activateUser](state, { payload: { id } }) {
     const newState = {
       ...state,
-      activeUser: id
+      activeUserID: id
     };
     saveObjectToSessionStorage('appDataUsers', newState);
     return newState;
@@ -60,7 +60,7 @@ const users = handleActions({
 }, {
   byId: {},
   allIds: [],
-  activeUser: null
+  activeUserID: null
 });
 
 
@@ -106,16 +106,36 @@ const cardDataState = handleActions({
 
 
 const uiState = handleActions({
-  [actions.setOpenedCard](state, { payload: { openedCardDescription } }) {
-    return {
-      ...state,
-      openedCardDescription
-    };
-  },
+
   [actions.activateUser](state) {
     return {
       ...state,
       openedCardDescription: null
+    };
+  },
+  [actions.removeUser](state, { payload: { id, isActive } }) {
+    const { settingsEdittableUser, settingsUIState } = state;
+    if (id === settingsEdittableUser) {
+      return {
+        ...state,
+        settingsUIState: 'addUser',
+        settingsEdittableUser: null
+      };
+    }
+    if (isActive && settingsUIState === 'activeUser') {
+      return {
+        ...state,
+        settingsUIState: 'addUser'
+      };
+    }
+    return state;
+  },
+
+
+  [actions.setOpenedCard](state, { payload: { openedCardDescription } }) {
+    return {
+      ...state,
+      openedCardDescription
     };
   },
   [actions.closeCard](state) {
@@ -124,6 +144,8 @@ const uiState = handleActions({
       openedCardDescription: null
     };
   },
+
+
   [actions.onActiveUserSettingsView](state) {
     return {
       ...state,
@@ -145,27 +167,34 @@ const uiState = handleActions({
       settingsEdittableUser: id
     };
   },
-  [actions.removeUser](state, { payload: { id, isActive } }) {
-    const { settingsEdittableUser, settingsUIState } = state;
-    if (id === settingsEdittableUser) {
-      return {
-        ...state,
-        settingsUIState: 'addUser',
-        settingsEdittableUser: null
-      };
-    }
-    if (isActive && settingsUIState === 'activeUser') {
-      return {
-        ...state,
-        settingsUIState: 'addUser'
-      };
-    }
-    return state;
+
+
+  [actions.hideActiveUserSelectors](state) {
+    return {
+      ...state,
+      isActiveUserSelectorsShown: false
+    };
+  },
+  [actions.toggleShownActiveUserSelectors](state) {
+    const { isActiveUserSelectorsShown } = state;
+    return {
+      ...state,
+      isActiveUserSelectorsShown: !isActiveUserSelectorsShown
+    };
+  },
+  [actions.activateUser](state) {
+    return {
+      ...state,
+      isActiveUserSelectorsShown: false
+    };
   }
+
+
 }, {
   settingsUIState: 'addUser',
   settingsEdittableUser: null,
-  openedCardDescription: null
+  openedCardDescription: null,
+  isActiveUserSelectorsShown: false
 });
 
 export default combineReducers({

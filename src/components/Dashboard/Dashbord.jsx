@@ -4,11 +4,11 @@ import Card from '../Card/Card';
 import { matchCardsDescriptionsByIDs } from '../../Data/data';
 
 const mapStateToProps = (state) => {
-  const { users: { byId, activeUser } } = state;
-  if (!Object.prototype.hasOwnProperty.call(byId, activeUser)) {
+  const { users: { byId, activeUserID } } = state;
+  if (!Object.prototype.hasOwnProperty.call(byId, activeUserID)) {
     return { showedCards: [] };
   }
-  const activeUserCardsIDs = byId[activeUser].userCardsIDs;
+  const activeUserCardsIDs = byId[activeUserID].userCardsIDs;
   return { showedCards: matchCardsDescriptionsByIDs(activeUserCardsIDs) };
 };
 
