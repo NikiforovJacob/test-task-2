@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 
 export const Frame = styled.div`
   background-color: #ecf1f5;
-  height: 100%;
-  padding-bottom: 50px;
+  min-height: 100%;
 `;
 
 export const Header = styled.div`
@@ -40,11 +39,13 @@ export const UserSelector = styled.li`
   cursor: pointer;
   padding: 5px 15px;
   max-width: 400px;
+  box-shadow: 0px 2px 5px #797272;
   background-color: ${({ isActiveUser }) => isActiveUser ? '#444c62' : '#2b3245'};
 `;
 
 export const UserSelectorName = styled.div`
   margin: 0px 10px; 
+  font-family: arial;
 `;
 
 export const Container = styled.div`

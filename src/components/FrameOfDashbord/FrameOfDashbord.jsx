@@ -38,9 +38,9 @@ const actionCreators = {
 
 
 const userIconMatch = {
-  male: 'src/public/icons/user_male.svg',
-  female: 'src/public/icons/user_female.svg',
-  other: 'src/public/icons/user_other.svg'
+  male: 'src/icons/user_male.svg',
+  female: 'src/icons/user_female.svg',
+  other: 'src/icons/user_other.svg'
 };
 
 const LinkStyled = styled(Link)`
@@ -110,7 +110,7 @@ class FrameOfDashbord extends React.Component {
       {activeUser === null ? (
         <div>
           <img
-            src="src/public/icons/info.svg"
+            src="src/icons/info.svg"
             alt="noUser icon"
             height="35px"
             width="35px"
@@ -133,7 +133,7 @@ class FrameOfDashbord extends React.Component {
     <SettingsIconBox>
       <Link to="/settings">
         <img
-          src="src/public/icons/settings-4.svg"
+          src="src/icons/settings-4.svg"
           alt="settings icon"
           height="35px"
           width="35px"

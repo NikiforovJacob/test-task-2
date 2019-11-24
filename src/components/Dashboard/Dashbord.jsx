@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Card from '../Card/Card';
 import { matchCardsDescriptionsByIDs } from '../../Data/data';
+import { Container } from './DashbordStyle';
 
 const mapStateToProps = (state) => {
   const { users: { byId, activeUserID } } = state;
@@ -26,9 +27,9 @@ class Dashbord extends Component {
   render() {
     const { showedCards } = this.props;
     return (
-      <div>
+      <Container>
         {showedCards.length === 0 ? 'выбирите пользователя' : this.renderCards(showedCards)}
-      </div>
+      </Container>
     );
   }
 }

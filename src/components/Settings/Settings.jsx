@@ -4,6 +4,18 @@ import { Link } from 'react-router-dom';
 import * as actions from '../../redux/actions/index';
 import SettingsUserActive from '../SettingsUserActive/SettingsUserActive';
 import SettingsUserAdderEditor from '../SettingsUserEditor/SettingsUserAdderEditor';
+import {
+  ContainerControls,
+  ContainerContent,
+  ContainerUsersList,
+  ContainerUsersData,
+  UsersItem,
+  UsersList,
+  Header,
+  UsersItemButtonsContainer,
+  UserItemButton,
+  ContentViewControlButtonsContainer
+} from './SettingsStyle';
 
 const mapStateToProps = (state) => {
   const {
@@ -13,7 +25,8 @@ const mapStateToProps = (state) => {
       activeUserID
     },
     uiState: {
-      settingsUIState
+      settingsUIState,
+      settingsEdittableUser
     }
   } = state;
   const users = allIds.map((id) => byId[id]);
@@ -21,7 +34,8 @@ const mapStateToProps = (state) => {
     users,
     activeUserData: byId[activeUserID],
     activeUserID,
-    settingsUIState
+    settingsUIState,
+    settingsEdittableUser
   };
 };
 
@@ -56,25 +70,54 @@ class NewUserForm extends React.Component {
     onAddUserSettingsView();
   }
 
+
+  renderUsersList = (users, activeUserID, settingsEdittableUser) => {
+    if (users.length === 0) {
+      return 'Users have not added';
+    }
+    return (
+      <UsersList>
+        {users.map(({
+          id,
+          firstName,
+          secondName
+        }) => (
+          <UsersItem isActive={activeUserID === id} key={`user-${id}`}>
+            <UsersItemButtonsContainer>
+              {this.renderRemoveUserButton(id, activeUserID)}
+              {this.renderEditUserButton(id, settingsEdittableUser)}
+            </UsersItemButtonsContainer>
+            <div>
+              {firstName} {secondName}
+            </div>
+          </UsersItem>
+        ))}
+      </UsersList>
+    );
+  }
+
+  renderRemoveUserButton = (id, activeUserID) => (
+    <UserItemButton position="left" color="#ff4874" type="button" onClick={this.handleRemoveUser(id, activeUserID)}>
+      <span>&times;</span>
+    </UserItemButton>
+  );
+
+  renderEditUserButton = (id, settingsEdittableUser) => (
+    <UserItemButton disabled={settingsEdittableUser === id} position="right" color="#808fb6" type="button" onClick={this.handleEditUser(id)}>
+      <span>edit</span>
+    </UserItemButton>
+  );
+
+
   render() {
     const {
       users,
       activeUserID,
       activeUserData,
-      settingsUIState
+      settingsUIState,
+      settingsEdittableUser
     } = this.props;
 
-    const removeUserButton = (id) => (
-      <button type="button" onClick={this.handleRemoveUser(id, activeUserID)}>
-        <span>&times;</span>
-      </button>
-    );
-
-    const editUserButton = (id) => (
-      <button type="button" onClick={this.handleEditUser(id)}>
-        <span>edit</span>
-      </button>
-    );
     const settingsModeSellector = (activeUserData) => ({
       addUser: <SettingsUserAdderEditor />,
       activeUser: <SettingsUserActive activeUserData={activeUserData} />,
@@ -83,43 +126,45 @@ class NewUserForm extends React.Component {
 
     return (
       <div>
-        <div>
-          <Link to="/dashbord">Back</Link>
-        </div>
-        <div>
-          <div>
-            <div>
-              <div>
-                <button type="button" disabled={activeUserID === null} onClick={this.handleOnActiveUserView()}>
-                  <span>View active user</span>
-                </button>
-              </div>
-              <div>
-                <button type="button" onClick={this.handleOnAddUserView()}>
-                  <span>Add user</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          {settingsModeSellector(activeUserData)[settingsUIState]}
-          <div>
-            <ul>
-              {users.map(({
-                id,
-                firstName,
-                secondName
-              }) => (
-                <li key={`user-${id}`}>
-                  <span>
-                    {activeUserID === id ? `${firstName} ${secondName}` : <s>{`${firstName} ${secondName}`}</s>}
-                  </span>
-                  {editUserButton(id)}
-                  {removeUserButton(id)}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <ContainerControls>
+          <Link to="/dashbord">
+            <img
+              src="src/icons/undo.svg"
+              alt="settings icon"
+              height="35px"
+              width="35px"
+            />
+          </Link>
+        </ContainerControls>
+        <ContainerContent>
+          <ContainerUsersData>
+            <ContentViewControlButtonsContainer>
+              <UserItemButton
+                color="#808fb6"
+                position="left"
+                type="button"
+                disabled={activeUserID === null || settingsUIState === 'activeUser'}
+                onClick={this.handleOnActiveUserView()}
+              >
+                <span>View active user</span>
+              </UserItemButton>
+              <UserItemButton
+                color="#808fb6"
+                position="right"
+                type="button"
+                disabled={settingsUIState === 'addUser'}
+                onClick={this.handleOnAddUserView()}
+              >
+                <span>Add user</span>
+              </UserItemButton>
+            </ContentViewControlButtonsContainer>
+            {settingsModeSellector(activeUserData)[settingsUIState]}
+          </ContainerUsersData>
+          <ContainerUsersList>
+            <Header>Added users</Header>
+            {this.renderUsersList(users, activeUserID, settingsEdittableUser)}
+          </ContainerUsersList>
+        </ContainerContent>
       </div>
     );
   }
