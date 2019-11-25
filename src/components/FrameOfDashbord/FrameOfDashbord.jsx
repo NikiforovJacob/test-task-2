@@ -17,6 +17,11 @@ import {
   LinkChangeColor
 } from './FrameOfDashbordStyle';
 
+import iconNoActiveUser from '../../icons/info.svg';
+import iconSettings from '../../icons/settings-4.svg';
+import iconUserMale from '../../icons/user_male.svg';
+import iconUserFemale from '../../icons/user_female.svg';
+import iconUserOther from '../../icons/user_other.svg';
 
 const mapStateToProps = (state) => {
   const { users: { byId, allIds, activeUserID }, uiState: { isActiveUserSelectorsShown } } = state;
@@ -38,9 +43,9 @@ const actionCreators = {
 
 
 const userIconMatch = {
-  male: 'src/icons/user_male.svg',
-  female: 'src/icons/user_female.svg',
-  other: 'src/icons/user_other.svg'
+  male: iconUserMale,
+  female: iconUserFemale,
+  other: iconUserOther
 };
 
 const LinkStyled = styled(Link)`
@@ -110,7 +115,7 @@ class FrameOfDashbord extends React.Component {
       {activeUser === null ? (
         <div>
           <img
-            src="src/icons/info.svg"
+            src={iconNoActiveUser}
             alt="noUser icon"
             height="35px"
             width="35px"
@@ -133,7 +138,7 @@ class FrameOfDashbord extends React.Component {
     <SettingsIconBox>
       <Link to="/settings">
         <img
-          src="src/icons/settings-4.svg"
+          src={iconSettings}
           alt="settings icon"
           height="35px"
           width="35px"

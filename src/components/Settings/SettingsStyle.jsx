@@ -22,6 +22,7 @@ export const ContainerUsersList = styled.div`
 export const UsersList = styled.ul`
   min-width: 250px;
   padding: 0px 0px;
+  margin: 0px auto;
 `;
 
 export const UsersItem = styled.li`

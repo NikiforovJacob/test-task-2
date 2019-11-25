@@ -17,6 +17,17 @@ module.exports = {
           ]
         }
       },
+      {
+        test: /\.(png|jpg|gif|svg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
+          }
+        ]
+      },
       // { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['eslint-loader'] },
       { test: /\.html$/, use: { loader: 'html-loader' } },
       {

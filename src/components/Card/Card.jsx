@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
-import { Container, CardIcon, CardName, CardDescription } from './CardStyle';
+import iconCard from '../../icons/archive.svg';
+import {
+  Container,
+  CardIcon,
+  CardName,
+  CardDescription
+} from './CardStyle';
 
 const mapStateToProps = () => ({});
 
@@ -23,7 +29,7 @@ class Card extends Component {
       <Container onClick={this.handleSetOpenedCard(cardData)}>
         <CardIcon>
           <img
-            src="src/icons/archive.svg"
+            src={iconCard}
             alt="card icon"
             height="65px"
             width="65px"

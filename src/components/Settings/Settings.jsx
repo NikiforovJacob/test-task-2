@@ -16,6 +16,7 @@ import {
   UserItemButton,
   ContentViewControlButtonsContainer
 } from './SettingsStyle';
+import iconUndo from '../../icons/undo.svg';
 
 const mapStateToProps = (state) => {
   const {
@@ -73,7 +74,7 @@ class NewUserForm extends React.Component {
 
   renderUsersList = (users, activeUserID, settingsEdittableUser) => {
     if (users.length === 0) {
-      return 'Users have not added';
+      return (<UsersList><UsersItem>No added users</UsersItem></UsersList>);
     }
     return (
       <UsersList>
@@ -129,7 +130,7 @@ class NewUserForm extends React.Component {
         <ContainerControls>
           <Link to="/dashbord">
             <img
-              src="src/icons/undo.svg"
+              src={iconUndo}
               alt="settings icon"
               height="35px"
               width="35px"
