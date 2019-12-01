@@ -4,6 +4,14 @@ import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../redux/actions/index';
 import { selectCardsIDs } from '../../Data/data';
 import FieldInput from '../FieldInput/FieldInput';
+import {
+  Header,
+  InputTextArea,
+  InputLabelContainer,
+  InputContainer,
+  Button,
+  InputRadioLabelContainer
+} from './SettingsUserAdderEditorStyle';
 
 const mapStateToProps = (state) => {
   const { users: { byId, allIds }, uiState: { settingsUIState, settingsEdittableUser } } = state;
@@ -90,9 +98,9 @@ class SettingsUserAdderEditor extends React.Component {
     const { handleSubmit, editableUser, settingsUIState } = this.props;
 
     const headerOfEditor = (editableUser) => (
-      <h3>{`Edit data of ${editableUser.firstName} ${editableUser.secondName}`}</h3>
+      <Header>{`Edit of ${editableUser.firstName}`}</Header>
     );
-    const headerOfAdder = <h3>Add new user</h3>;
+    const headerOfAdder = <Header>Add new user</Header>;
 
     return (
       <div>
@@ -138,37 +146,41 @@ class SettingsUserAdderEditor extends React.Component {
               />
             </div>
           </div>
-          <div>
-            <label>Gender</label>
+          <InputContainer>
+            <InputLabelContainer>
+              <label>Gender</label>
+            </InputLabelContainer>
             <div>
-              <label>
+              <InputRadioLabelContainer>
                 <Field name="gender" required component="input" type="radio" value="male" />
                 {' '}
                 Male
-              </label>
-              <label>
+              </InputRadioLabelContainer>
+              <InputRadioLabelContainer>
                 <Field name="gender" required component="input" type="radio" value="female" />
                 {' '}
                 Female
-              </label>
-              <label>
+              </InputRadioLabelContainer>
+              <InputRadioLabelContainer>
                 <Field name="gender" required component="input" type="radio" value="other" />
                 {' '}
                 Other
-              </label>
+              </InputRadioLabelContainer>
             </div>
-          </div>
-          <div>
-            <label htmlFor="about">First Name</label>
+          </InputContainer>
+          <InputContainer>
+            <InputLabelContainer>
+              <label htmlFor="about">About you</label>
+            </InputLabelContainer>
             <div>
-              <Field
+              <InputTextArea
                 name="about"
                 placeholder="About you"
                 component="textarea"
               />
             </div>
-          </div>
-          <input type="submit" value={settingsUIState === 'addUser' ? 'Add' : 'Edit'} />
+          </InputContainer>
+          <Button type="submit" value={settingsUIState === 'addUser' ? 'Add' : 'Edit'} />
         </form>
       </div>
     );

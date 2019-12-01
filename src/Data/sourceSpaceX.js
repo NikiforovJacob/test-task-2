@@ -17,7 +17,7 @@ const configSource1 = {
       value: data.flight_number
     },
     {
-      type: 'text',
+      type: 'date',
       fieldName: 'Event date',
       value: data.event_date_utc
     },

@@ -3,8 +3,10 @@ import styled from '@emotion/styled';
 export const ContainerContent = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
+  max-width: 1250px;
+  margin: 0px auto;
 `;
 
 export const ContainerControls = styled.div`
@@ -12,6 +14,7 @@ export const ContainerControls = styled.div`
   top: 0px;
   filter: grayscale(0.75);
   padding: 10px;
+  :hover {filter: grayscale(0);}
 `;
 
 export const ContainerUsersList = styled.div`
@@ -46,7 +49,6 @@ export const ContentViewControlButtonsContainer = styled.div`
 `;
 
 export const UserItemButton = styled.button`
-  // margin-right: 15px;
   font: bold 14px Arial;
   background-color: ${({ color }) => color};
   :disabled {
@@ -73,7 +75,7 @@ export const ContainerUsersData = styled.div`
 export const Header = styled.div`
   font: bold 30px arial;
   margin-bottom: 40px;
-  @media (min-width: 737px) {
+  @media (min-width: 836px) {
     margin-top: 80px;
   }
   text-align: center;

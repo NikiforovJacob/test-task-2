@@ -16,6 +16,7 @@ import {
   UserItemButton,
   ContentViewControlButtonsContainer
 } from './SettingsStyle';
+
 import iconUndo from '../../icons/undo.svg';
 
 const mapStateToProps = (state) => {

@@ -14,7 +14,8 @@ import {
   UserIconBox,
   UserSelector,
   UserSelectorName,
-  LinkChangeColor
+  LinkChangeColor,
+  HeaderSubstitute
 } from './FrameOfDashbordStyle';
 
 import iconNoActiveUser from '../../icons/info.svg';
@@ -162,6 +163,7 @@ class FrameOfDashbord extends React.Component {
           {this.renderUserIcon(activeUser, users)}
           {this.renderSettingsIcon()}
         </Header>
+        <HeaderSubstitute />
         {isActiveUserSelectorsShown && this.renderUsersSelectors(users, activeUserID)}
         <Frame>
           {children}

@@ -6,9 +6,9 @@ export const Container = styled.div`
   margin: 20px 20px;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
   align-items: center;
   background-color: #ffffff;
+  cursor: pointer;
 `;
 
 export const CardIcon = styled.div`

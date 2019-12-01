@@ -12,8 +12,13 @@ export const Header = styled.div`
   justify-content: flex-end;
   align-items: center;
   box-shadow: 0px 2px 5px #797272;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0px;
+`;
+
+export const HeaderSubstitute = styled.div`
+  height: 60px;
 `;
 
 export const UsersList = styled.ul`
@@ -60,6 +65,7 @@ export const Footer = styled.div`
   align-items: center;
   color: #ecf1f5;
   box-shadow: 0px -2px 5px #797272;
+  text-align: center;
 `;
 
 export const SettingsIconBox = styled.div`

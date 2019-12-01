@@ -10,7 +10,7 @@ export const Input = styled.input`
   padding: 12px 15px;
   margin: 8px 0px 0px;
   display: inline-block;
-  border: 1px solid;
+  border: 2px solid #ccc;
   border-color: ${({ error }) =>
     error ? '#ff4874' : '#ccc'
   };

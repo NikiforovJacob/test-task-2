@@ -28,7 +28,7 @@ class Dashbord extends Component {
     const { showedCards } = this.props;
     return (
       <Container>
-        {showedCards.length === 0 ? 'выбирите пользователя' : this.renderCards(showedCards)}
+        {showedCards.length === 0 ? 'Please, add users in the settings and choose user in the question button' : this.renderCards(showedCards)}
       </Container>
     );
   }
