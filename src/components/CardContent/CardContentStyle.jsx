@@ -9,7 +9,7 @@ export const ControlsContainer = styled.div`
   :hover {filter: grayscale(0);}
 `;
 
-export const Header = styled.div`
+export const HeaderDescription = styled.div`
   font: bold 20px arial;
   padding: 30px 0 15px 0;
 `;
@@ -20,40 +20,78 @@ export const CardDescription = styled.div`
 `;
 
 export const CardDescriptionContainer = styled.div`
-  margin: 0 50px 0 50px;
+  margin: 0 50px 30px 50px;
 `;
 
 export const ContentContainer = styled.div`
   display: grid;
-  // grid-template-rows: 1fr 1fr 1fr 1fr;
-  grid-template-columns: repeat( ${({ numOfColumns }) => numOfColumns}, 1fr);
-  // justify-content: center;
-  // justify-items: center;
+  grid-template-columns: auto minmax(60%,auto);
+  grid-template-rows: auto;
+  align-items: center;
+  grid-template-rows: 500px;
+  align-items: start;
+  background-color: #ffffff;
+`;
+
+export const ContentFirstCulumnContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
 `;
 
+export const ContentBodyTableContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat( ${({ numOfColumns }) => numOfColumns}, auto);
+  align-items: center;
+  overflow: auto;
+`;
+
 export const ContentItemText = styled.div`
-  padding: 10px 20px;
   font: 16px arial;
+  height: 50px;
+  display: flex;
+  align-self: center;
+  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
 `;
 
 export const ContentItemBigText = styled.a`
-  padding: 10px 20px;
-  height: 30px;
+  display: flex;
+  height: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  font: 16px arial;
+  align-self: center;
+  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
+  `;
+
+export const ContentItemLink = styled.a`
+  font: 16px arial;
+  height: 50px;
+  display: flex;
+  align-self: center;
+  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
+`;
+
+export const ContentInner = styled.div`
+  margin: auto 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: pointer;
-  font: 16px arial;
-`;
-
-export const ContentItemLink = styled.a`
-  padding: 10px 20px;
-  font: 16px arial;
 `;
 
 export const ContentNamesOfColumns = styled.div`
-  padding: 10px 20px;
+  height: 60px;
   font: bold 18px arial;
   background-color: #ffffff;
+  display: flex;
+  align-self: center;
+`;
+
+export const ContentNameOfFirstColumn = styled.div`
+  height: 60px;
+  font: bold 18px arial;
+  background-color: #ffffff;
+  display: flex;
+  align-self: center;
+  overflow: hidden;
 `;

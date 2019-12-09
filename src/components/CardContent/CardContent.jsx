@@ -4,13 +4,17 @@ import * as actions from '../../redux/actions/index';
 import {
   ControlsContainer,
   ContentContainer,
-  Header,
+  HeaderDescription,
   CardDescription,
   CardDescriptionContainer,
   ContentItemText,
   ContentItemBigText,
   ContentItemLink,
-  ContentNamesOfColumns
+  ContentNamesOfColumns,
+  ContentNameOfFirstColumn,
+  ContentFirstCulumnContainer,
+  ContentBodyTableContainer,
+  ContentInner
 } from './CardContentStyle';
 
 import iconUndo from '../../icons/undo.svg';
@@ -42,28 +46,80 @@ class CardContent extends Component {
   renderCardContent = (openedCardData) => {
 
     const getContentType = {
-      text: (value) => <ContentItemText>{value}</ContentItemText>,
-      date: (value) => <ContentItemText>{value.replace('T', ' ').replace('Z', '')}</ContentItemText>,
-      bigText: (value) => <ContentItemBigText>{value}</ContentItemBigText>,
-      link: (value) => <ContentItemLink href={value}>Link</ContentItemLink>
+      text: (value, i) => (
+        <ContentItemText isDark={i % 2 === 0}>
+          <ContentInner>
+            {value}
+          </ContentInner>
+        </ContentItemText>
+      ),
+      date: (value, i) => (
+        <ContentItemText isDark={i % 2 === 0}>
+          <ContentInner>
+            {value.replace('T', ' ').replace('Z', '')}
+          </ContentInner>
+        </ContentItemText>
+      ),
+      bigText: (value, i) => (
+        <ContentItemBigText isDark={i % 2 === 0}>
+          <ContentInner>
+            {value}
+          </ContentInner>
+        </ContentItemBigText>
+      ),
+      link: (value, i) => (
+        <ContentItemLink href={value} isDark={i % 2 === 0}>
+          <ContentInner>
+            Link
+          </ContentInner>
+        </ContentItemLink>
+      )
     };
 
     const namesOfColumnsComponents = openedCardData[0].filter(
       (item) => item.fieldName !== 'id'
     ).map(
-      (item) => (<ContentNamesOfColumns>{item.fieldName.toUpperCase()}</ContentNamesOfColumns>)
+      (item, i) => {
+        if (i === 0) {
+          return (
+            <ContentNameOfFirstColumn>
+              <ContentInner>
+                {item.fieldName.toUpperCase()}
+              </ContentInner>
+            </ContentNameOfFirstColumn>
+          );
+        }
+        return (
+          <ContentNamesOfColumns>
+            <ContentInner>
+              {item.fieldName.toUpperCase()}
+            </ContentInner>
+          </ContentNamesOfColumns>
+        );
+      }
     );
 
-    const numOfColumns = namesOfColumnsComponents.length;
+    const firstFixedColumnComponents = openedCardData.map(
+      (item, i) => getContentType[item[1].type](item[1].value, i)
+    );
+
+    const bodyTableDataComponents = openedCardData.map(
+      (rowData, i) => rowData.map(
+        (cellData, j) => j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i)
+      )
+    );
+
+    const [firstColumnNameComponent, ...restColumnsNamesComponents] = namesOfColumnsComponents;
+    const numOfColumnsTableBody = restColumnsNamesComponents.length;
 
     return (
-      <ContentContainer numOfColumns={numOfColumns}>
-        {namesOfColumnsComponents}
-        {openedCardData.map(
-          (rowData) => rowData.map(
-            (cellData) => cellData.fieldName === 'id' ? null : getContentType[cellData.type](cellData.value)
-          )
-        )}
+      <ContentContainer>
+        <ContentFirstCulumnContainer>
+          {[firstColumnNameComponent, ...firstFixedColumnComponents]}
+        </ContentFirstCulumnContainer>
+        <ContentBodyTableContainer numOfColumns={numOfColumnsTableBody}>
+          {[restColumnsNamesComponents, ...bodyTableDataComponents]}
+        </ContentBodyTableContainer>
       </ContentContainer>
     );
   };
@@ -102,7 +158,7 @@ class CardContent extends Component {
           </a>
         </ControlsContainer>
         <CardDescriptionContainer>
-          <Header>{openedCardDescription.name}</Header>
+          <HeaderDescription>{openedCardDescription.name}</HeaderDescription>
           <CardDescription>{openedCardDescription.description}</CardDescription>
         </CardDescriptionContainer>
         {getContentRender[cardDataRequestState](openedCardData)}

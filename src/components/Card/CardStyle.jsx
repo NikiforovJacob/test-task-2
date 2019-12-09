@@ -9,6 +9,9 @@ export const Container = styled.div`
   align-items: center;
   background-color: #ffffff;
   cursor: pointer;
+  :hover {
+    box-shadow: 0px 0px 20px #797272;
+  }
 `;
 
 export const CardIcon = styled.div`
