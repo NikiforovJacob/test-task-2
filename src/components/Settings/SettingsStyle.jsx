@@ -33,7 +33,7 @@ export const UsersItem = styled.li`
   list-style: none;
   display: flex;
   justify-content: flex-start;
-  font: ${({ isActive }) => isActive ? 'bold' : ''} 15px arial;
+  font: ${({ isActive }) => (isActive ? 'bold' : '')} 15px arial;
   align-items: center;
   margin: 10px 0px
 `;
@@ -44,7 +44,7 @@ export const UsersItemButtonsContainer = styled.div`
 `;
 
 export const ContentViewControlButtonsContainer = styled.div`
-  width: 230px;
+  width: 239px;
   margin: 0px auto;
 `;
 
@@ -62,9 +62,7 @@ export const UserItemButton = styled.button`
   display: inline-block;
   cursor: pointer;
   border: none;
-  border-radius: ${({ position }) => 
-    position === "left" ? '10px 0px 0px 10px' : '0px 10px 10px 0px'
-  };
+  border-radius: ${({ position }) => (position === 'left' ? '10px 0px 0px 10px' : '0px 10px 10px 0px')};
 `;
 
 export const ContainerUsersData = styled.div`

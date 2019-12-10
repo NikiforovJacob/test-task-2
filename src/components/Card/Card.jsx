@@ -12,11 +12,10 @@ import {
 const mapStateToProps = () => ({});
 
 const actionCreators = {
-  updateCardData: actions.updateCardData,
+  updateCardData: actions.updateCardData
 };
 
 class Card extends Component {
-
   handleSetOpenedCard = (cardData) => () => {
     const { updateCardData } = this.props;
     updateCardData(cardData);

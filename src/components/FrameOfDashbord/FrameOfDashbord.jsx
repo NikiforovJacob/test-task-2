@@ -57,8 +57,21 @@ const LinkStyled = styled(Link)`
 
 
 class FrameOfDashbord extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { height: window.innerHeight };
+  }
 
-  handleToggleUlersList = () => {
+  componentDidMount() {
+    // this.setState({ height: window.innerHeight })
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ height: window.innerHeight });
+  }
+
+  handleToggleUsersList = () => {
     const { toggleShownActiveUserSelectors } = this.props;
     toggleShownActiveUserSelectors();
   };
@@ -110,7 +123,7 @@ class FrameOfDashbord extends React.Component {
 
   renderUserIcon = (activeUser, users) => (
     <UserIconBox
-      onClick={this.handleToggleUlersList}
+      onClick={this.handleToggleUsersList}
       usersLength={users.length}
     >
       {activeUser === null ? (
@@ -165,7 +178,7 @@ class FrameOfDashbord extends React.Component {
         </Header>
         <HeaderSubstitute />
         {isActiveUserSelectorsShown && this.renderUsersSelectors(users, activeUserID)}
-        <Frame>
+        <Frame wHeight={this.state.height}>
           {children}
         </Frame>
         <Footer>

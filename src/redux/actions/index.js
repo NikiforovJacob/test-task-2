@@ -27,5 +27,5 @@ export const updateCardData = (openedCardDescription) => async (dispatch) => {
   dispatch(updateCardDataRequest());
   const cb = (openedCardData) => dispatch(updateCardDataSuccess({ openedCardData }));
   const cbError = () => dispatch(updateCardDataFailure());
-  openedCardDescription.getData(1, 5, cb, cbError);
+  openedCardDescription.getData(1, 15, cb, cbError);
 };

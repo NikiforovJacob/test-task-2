@@ -110,7 +110,8 @@ const uiState = handleActions({
   [actions.activateUser](state) {
     return {
       ...state,
-      openedCardDescription: null
+      openedCardDescription: null,
+      isActiveUserSelectorsShown: false
     };
   },
   [actions.removeUser](state, { payload: { id, isActive } }) {
@@ -180,12 +181,6 @@ const uiState = handleActions({
     return {
       ...state,
       isActiveUserSelectorsShown: !isActiveUserSelectorsShown
-    };
-  },
-  [actions.activateUser](state) {
-    return {
-      ...state,
-      isActiveUserSelectorsShown: false
     };
   }
 

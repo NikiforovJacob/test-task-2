@@ -29,7 +29,6 @@ class App extends Component {
     const { initializeUsersState } = this.props;
     const appDataUsers = getObjectFromSessionStorage('appDataUsers');
     if (appDataUsers !== null) {
-      console.log('stateInit')
       initializeUsersState({ appDataUsers });
     }
   }

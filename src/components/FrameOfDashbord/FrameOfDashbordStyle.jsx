@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 
 export const Frame = styled.div`
   background-color: #ecf1f5;
-  min-height: 100%;
+  height: ${({ wHeight }) => wHeight - 100}px;
+  overflow: auto;
 `;
 
 export const Header = styled.div`

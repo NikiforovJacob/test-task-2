@@ -4,6 +4,7 @@ import * as actions from '../../redux/actions/index';
 import {
   ControlsContainer,
   ContentContainer,
+  TableContainer,
   HeaderDescription,
   CardDescription,
   CardDescriptionContainer,
@@ -14,7 +15,8 @@ import {
   ContentNameOfFirstColumn,
   ContentFirstCulumnContainer,
   ContentBodyTableContainer,
-  ContentInner
+  ContentInner,
+  ContentCap
 } from './CardContentStyle';
 
 import iconUndo from '../../icons/undo.svg';
@@ -37,14 +39,12 @@ const actionCreators = {
 };
 
 class CardContent extends Component {
-
   handleCloseCard = () => {
     const { closeCard } = this.props;
     closeCard();
   }
 
   renderCardContent = (openedCardData) => {
-
     const getContentType = {
       text: (value, i) => (
         <ContentItemText isDark={i % 2 === 0}>
@@ -105,7 +105,9 @@ class CardContent extends Component {
 
     const bodyTableDataComponents = openedCardData.map(
       (rowData, i) => rowData.map(
-        (cellData, j) => j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i)
+        (cellData, j) => (
+          j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i)
+        )
       )
     );
 
@@ -113,28 +115,24 @@ class CardContent extends Component {
     const numOfColumnsTableBody = restColumnsNamesComponents.length;
 
     return (
-      <ContentContainer>
+      <TableContainer>
         <ContentFirstCulumnContainer>
           {[firstColumnNameComponent, ...firstFixedColumnComponents]}
         </ContentFirstCulumnContainer>
         <ContentBodyTableContainer numOfColumns={numOfColumnsTableBody}>
           {[restColumnsNamesComponents, ...bodyTableDataComponents]}
         </ContentBodyTableContainer>
-      </ContentContainer>
+      </TableContainer>
     );
   };
 
-  renderCardContentLoading = () => {
-    return (
-      <div>Data is loading</div>
-    );
-  };
+  renderCardContentLoading = () => (
+    <ContentCap>Data is loading...</ContentCap>
+  );
 
-  renderCardContentError = () => {
-    return (
-      <div>Something went wrong. Sorry.</div>
-    );
-  }
+  renderCardContentError = () => (
+    <ContentCap>Something went wrong. Sorry.</ContentCap>
+  );
 
   render() {
     const { openedCardDescription, openedCardData, cardDataRequestState } = this.props;
@@ -146,7 +144,7 @@ class CardContent extends Component {
     };
 
     return (
-      <div>
+      <>
         <ControlsContainer>
           <a onClick={this.handleCloseCard}>
             <img
@@ -161,8 +159,10 @@ class CardContent extends Component {
           <HeaderDescription>{openedCardDescription.name}</HeaderDescription>
           <CardDescription>{openedCardDescription.description}</CardDescription>
         </CardDescriptionContainer>
-        {getContentRender[cardDataRequestState](openedCardData)}
-      </div>
+        <ContentContainer>
+          {getContentRender[cardDataRequestState](openedCardData)}
+        </ContentContainer>
+      </>
     );
   }
 }

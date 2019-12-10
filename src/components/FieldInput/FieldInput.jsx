@@ -1,8 +1,18 @@
 import React from 'react';
 
-import { Container, Input, Label, ValidationAnsver } from './FieldInputStyle';
+import {
+  Container,
+  Input,
+  Label,
+  ValidationAnsver
+} from './FieldInputStyle';
 
-export default ({ input, label, type, meta: { touched, error } }) => (
+export default ({
+  input,
+  label,
+  type,
+  meta: { touched, error }
+}) => (
   <Container>
     <Label>{label}</Label>
     <div>

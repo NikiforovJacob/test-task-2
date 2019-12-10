@@ -79,7 +79,7 @@ class SettingsUserAdderEditor extends React.Component {
     email,
     gender
   }) => {
-    const { addUser, allIds, reset} = this.props;
+    const { addUser, allIds, reset } = this.props;
     const user = {
       id: allIds.length === 0 ? 1 : (allIds[0] + 1),
       firstName,
@@ -97,8 +97,8 @@ class SettingsUserAdderEditor extends React.Component {
   render() {
     const { handleSubmit, editableUser, settingsUIState } = this.props;
 
-    const headerOfEditor = (editableUser) => (
-      <Header>{`Edit of ${editableUser.firstName}`}</Header>
+    const headerOfEditor = (editableUserData) => (
+      <Header>{`Edit of ${editableUserData.firstName}`}</Header>
     );
     const headerOfAdder = <Header>Add new user</Header>;
 

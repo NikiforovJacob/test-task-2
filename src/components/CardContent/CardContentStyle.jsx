@@ -23,14 +23,14 @@ export const CardDescriptionContainer = styled.div`
   margin: 0 50px 30px 50px;
 `;
 
-export const ContentContainer = styled.div`
+export const TableContainer = styled.div`
   display: grid;
   grid-template-columns: auto minmax(60%,auto);
   grid-template-rows: auto;
   align-items: center;
-  grid-template-rows: 500px;
+  grid-template-rows: 70%;
   align-items: start;
-  background-color: #ffffff;
+  overflow: auto;
 `;
 
 export const ContentFirstCulumnContainer = styled.div`
@@ -51,7 +51,7 @@ export const ContentItemText = styled.div`
   height: 50px;
   display: flex;
   align-self: center;
-  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
+  ${({ isDark }) => (isDark ? 'background-color: #ecf1f5;' : '')};
 `;
 
 export const ContentItemBigText = styled.a`
@@ -61,7 +61,7 @@ export const ContentItemBigText = styled.a`
   cursor: pointer;
   font: 16px arial;
   align-self: center;
-  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
+  ${({ isDark }) => (isDark ? 'background-color: #ecf1f5;' : '')};
   `;
 
 export const ContentItemLink = styled.a`
@@ -69,7 +69,7 @@ export const ContentItemLink = styled.a`
   height: 50px;
   display: flex;
   align-self: center;
-  ${({ isDark }) => isDark ? 'background-color: #ecf1f5;' : ''};
+  ${({ isDark }) => (isDark ? 'background-color: #ecf1f5;' : '')};
 `;
 
 export const ContentInner = styled.div`
@@ -94,4 +94,17 @@ export const ContentNameOfFirstColumn = styled.div`
   display: flex;
   align-self: center;
   overflow: hidden;
+`;
+
+export const ContentContainer = styled.div`
+  width: 100%;
+  height: 70%;
+  background-color: #ffffff;
+  overflow: auto;
+`;
+
+export const ContentCap = styled.div`
+  font: bold 20px arial;
+  text-align: center;
+  padding-top: 100px;
 `;
