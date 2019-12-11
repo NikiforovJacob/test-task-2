@@ -46,7 +46,7 @@ export const UserSelector = styled.li`
   padding: 5px 15px;
   max-width: 400px;
   box-shadow: 0px 2px 5px #797272;
-  background-color: ${({ isActiveUser }) => isActiveUser ? '#444c62' : '#2b3245'};
+  background-color: ${({ isActiveUser }) => (isActiveUser ? '#444c62' : '#2b3245')};
 `;
 
 export const UserSelectorName = styled.div`
@@ -75,7 +75,7 @@ export const SettingsIconBox = styled.div`
 
 export const UserIconBox = styled.div`
   margin-right: 30px;
-  ${({ usersLength }) => usersLength === 0 ? 'filter: grayscale(0.75);' : ''}
+  ${({ usersLength }) => (usersLength === 0 ? 'filter: grayscale(0.75);' : '')}
   }
   cursor: pointer;
 `;

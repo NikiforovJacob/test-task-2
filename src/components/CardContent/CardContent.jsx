@@ -16,7 +16,8 @@ import {
   ContentFirstCulumnContainer,
   ContentBodyTableContainer,
   ContentInner,
-  ContentCap
+  ContentCap,
+  BackButton
 } from './CardContentStyle';
 
 import iconUndo from '../../icons/undo.svg';
@@ -46,29 +47,29 @@ class CardContent extends Component {
 
   renderCardContent = (openedCardData) => {
     const getContentType = {
-      text: (value, i) => (
-        <ContentItemText isDark={i % 2 === 0}>
+      text: (value, i, key) => (
+        <ContentItemText key={key} isDark={i % 2 === 0}>
           <ContentInner>
             {value}
           </ContentInner>
         </ContentItemText>
       ),
-      date: (value, i) => (
-        <ContentItemText isDark={i % 2 === 0}>
+      date: (value, i, key) => (
+        <ContentItemText key={key} isDark={i % 2 === 0}>
           <ContentInner>
             {value.replace('T', ' ').replace('Z', '')}
           </ContentInner>
         </ContentItemText>
       ),
-      bigText: (value, i) => (
-        <ContentItemBigText isDark={i % 2 === 0}>
+      bigText: (value, i, key) => (
+        <ContentItemBigText key={key} isDark={i % 2 === 0}>
           <ContentInner>
             {value}
           </ContentInner>
         </ContentItemBigText>
       ),
-      link: (value, i) => (
-        <ContentItemLink href={value} isDark={i % 2 === 0}>
+      link: (value, i, key) => (
+        <ContentItemLink href={value} key={key} isDark={i % 2 === 0}>
           <ContentInner>
             Link
           </ContentInner>
@@ -82,7 +83,7 @@ class CardContent extends Component {
       (item, i) => {
         if (i === 0) {
           return (
-            <ContentNameOfFirstColumn>
+            <ContentNameOfFirstColumn key={`{key${item + i}`}>
               <ContentInner>
                 {item.fieldName.toUpperCase()}
               </ContentInner>
@@ -90,7 +91,7 @@ class CardContent extends Component {
           );
         }
         return (
-          <ContentNamesOfColumns>
+          <ContentNamesOfColumns key={`{key${item + i}`}>
             <ContentInner>
               {item.fieldName.toUpperCase()}
             </ContentInner>
@@ -100,13 +101,13 @@ class CardContent extends Component {
     );
 
     const firstFixedColumnComponents = openedCardData.map(
-      (item, i) => getContentType[item[1].type](item[1].value, i)
+      (item, i) => getContentType[item[1].type](item[1].value, i, `key${i + item[1].value + item[2].value}`)
     );
 
     const bodyTableDataComponents = openedCardData.map(
       (rowData, i) => rowData.map(
         (cellData, j) => (
-          j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i)
+          j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i, `r${i}c${j}`)
         )
       )
     );
@@ -146,14 +147,14 @@ class CardContent extends Component {
     return (
       <>
         <ControlsContainer>
-          <a onClick={this.handleCloseCard}>
+          <BackButton onClick={this.handleCloseCard}>
             <img
               src={iconUndo}
               alt="settings icon"
               height="35px"
               width="35px"
             />
-          </a>
+          </BackButton>
         </ControlsContainer>
         <CardDescriptionContainer>
           <HeaderDescription>{openedCardDescription.name}</HeaderDescription>

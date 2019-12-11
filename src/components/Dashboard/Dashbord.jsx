@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
 };
 
 class Dashbord extends Component {
-
   renderCards = (showedCards) => showedCards.map(
     (cardData) => (
       <Card

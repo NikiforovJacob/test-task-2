@@ -50,7 +50,6 @@ const actionCreators = {
 };
 
 class NewUserForm extends React.Component {
-
   handleRemoveUser = (id, activeUserID) => () => {
     const { removeUser } = this.props;
     const isActive = id === activeUserID;
@@ -90,7 +89,7 @@ class NewUserForm extends React.Component {
               {this.renderEditUserButton(id, settingsEdittableUser)}
             </UsersItemButtonsContainer>
             <div>
-              {firstName} {secondName}
+              {`${firstName} ${secondName}`}
             </div>
           </UsersItem>
         ))}
@@ -120,9 +119,9 @@ class NewUserForm extends React.Component {
       settingsEdittableUser
     } = this.props;
 
-    const settingsModeSellector = (activeUserData) => ({
+    const settingsModeSellector = (userData) => ({
       addUser: <SettingsUserAdderEditor />,
-      activeUser: <SettingsUserActive activeUserData={activeUserData} />,
+      activeUser: <SettingsUserActive activeUserData={userData} />,
       editUser: <SettingsUserAdderEditor />
     });
 

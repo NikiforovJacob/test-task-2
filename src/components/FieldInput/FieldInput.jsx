@@ -14,9 +14,9 @@ export default ({
   meta: { touched, error }
 }) => (
   <Container>
-    <Label>{label}</Label>
+    <Label htmlFor={input.name}>{label}</Label>
     <div>
-      <Input {...input} error={touched && error} placeholder={label} type={type} />
+      <Input {...input} error={touched && error} id={input.name} placeholder={label} type={type} />
       {touched && ((error && <ValidationAnsver>{error}</ValidationAnsver>))}
     </div>
   </Container>

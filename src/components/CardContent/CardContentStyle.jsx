@@ -27,7 +27,6 @@ export const TableContainer = styled.div`
   display: grid;
   grid-template-columns: auto minmax(60%,auto);
   grid-template-rows: auto;
-  align-items: center;
   grid-template-rows: 70%;
   align-items: start;
   overflow: auto;
@@ -107,4 +106,7 @@ export const ContentCap = styled.div`
   font: bold 20px arial;
   text-align: center;
   padding-top: 100px;
+`;
+
+export const BackButton = styled.a`
 `;

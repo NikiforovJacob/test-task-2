@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -170,6 +171,10 @@ class FrameOfDashbord extends React.Component {
       isActiveUserSelectorsShown
     } = this.props;
 
+    const {
+      height
+    } = this.state;
+
     return (
       <Container onClick={isActiveUserSelectorsShown ? this.handleHideUlersList : () => ''}>
         <Header>
@@ -178,11 +183,28 @@ class FrameOfDashbord extends React.Component {
         </Header>
         <HeaderSubstitute />
         {isActiveUserSelectorsShown && this.renderUsersSelectors(users, activeUserID)}
-        <Frame wHeight={this.state.height}>
+        <Frame wHeight={height}>
           {children}
         </Frame>
         <Footer>
-          <div>Icons made by <LinkChangeColor color="#ecf1f5" href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</LinkChangeColor> from <LinkChangeColor color="#ecf1f5" href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</LinkChangeColor></div>
+          <div>
+            {'Icons made by '}
+            <LinkChangeColor
+              color="#ecf1f5"
+              href="https://www.flaticon.com/authors/smashicons"
+              title="Smashicons"
+            >
+              Smashicons
+            </LinkChangeColor>
+            {' from '}
+            <LinkChangeColor
+              color="#ecf1f5"
+              href="https://www.flaticon.com/"
+              title="Flaticon"
+            >
+              www.flaticon.com
+            </LinkChangeColor>
+          </div>
         </Footer>
       </Container>
     );

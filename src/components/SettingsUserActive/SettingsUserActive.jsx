@@ -7,14 +7,16 @@ import {
 } from './SettingsUserActiveStyle';
 
 const SettingsUserEditor = (props) => {
-  const { activeUserData: {
-    firstName,
-    secondName,
-    patronymic,
-    about,
-    email,
-    gender
-  } } = props;
+  const {
+    activeUserData: {
+      firstName,
+      secondName,
+      patronymic,
+      about,
+      email,
+      gender
+    }
+  } = props;
 
   return (
     <div>

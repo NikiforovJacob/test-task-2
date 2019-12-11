@@ -148,21 +148,21 @@ class SettingsUserAdderEditor extends React.Component {
           </div>
           <InputContainer>
             <InputLabelContainer>
-              <label>Gender</label>
+              <label htmlFor="gender">Gender</label>
             </InputLabelContainer>
             <div>
               <InputRadioLabelContainer>
-                <Field name="gender" required component="input" type="radio" value="male" />
+                <Field id="gender" name="gender" required component="input" type="radio" value="male" />
                 {' '}
                 Male
               </InputRadioLabelContainer>
               <InputRadioLabelContainer>
-                <Field name="gender" required component="input" type="radio" value="female" />
+                <Field id="gender" name="gender" required component="input" type="radio" value="female" />
                 {' '}
                 Female
               </InputRadioLabelContainer>
               <InputRadioLabelContainer>
-                <Field name="gender" required component="input" type="radio" value="other" />
+                <Field id="gender" name="gender" required component="input" type="radio" value="other" />
                 {' '}
                 Other
               </InputRadioLabelContainer>
@@ -174,6 +174,7 @@ class SettingsUserAdderEditor extends React.Component {
             </InputLabelContainer>
             <div>
               <InputTextArea
+                id="about"
                 name="about"
                 placeholder="About you"
                 component="textarea"
