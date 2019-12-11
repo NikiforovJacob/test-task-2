@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
+import { openedCardDescriptionSelector, openedCardDataSelector, cardDataRequestSelector } from '../../redux/selectors';
 import {
   ControlsContainer,
   ContentContainer,
@@ -22,18 +23,11 @@ import {
 
 import iconUndo from '../../icons/undo.svg';
 
-const mapStateToProps = (state) => {
-  const {
-    cardDataState: {
-      openedCardData,
-      cardDataRequestState
-    },
-    uiState: {
-      openedCardDescription
-    }
-  } = state;
-  return { openedCardDescription, openedCardData, cardDataRequestState };
-};
+const mapStateToProps = (state) => ({
+  openedCardDescription: openedCardDescriptionSelector(state),
+  openedCardData: openedCardDataSelector(state),
+  cardDataRequestState: cardDataRequestSelector(state)
+});
 
 const actionCreators = {
   closeCard: actions.closeCard

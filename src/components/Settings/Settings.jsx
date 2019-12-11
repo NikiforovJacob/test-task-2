@@ -5,6 +5,14 @@ import * as actions from '../../redux/actions/index';
 import SettingsUserActive from '../SettingsUserActive/SettingsUserActive';
 import SettingsUserAdderEditor from '../SettingsUserEditor/SettingsUserAdderEditor';
 import {
+  usersSelector,
+  activeUserIDSelector,
+  settingsUIStateSelector,
+  settingsEdittableUserSelector,
+  activeUserSelector
+} from '../../redux/selectors';
+
+import {
   ContainerControls,
   ContainerContent,
   ContainerUsersList,
@@ -19,27 +27,13 @@ import {
 
 import iconUndo from '../../icons/undo.svg';
 
-const mapStateToProps = (state) => {
-  const {
-    users: {
-      byId,
-      allIds,
-      activeUserID
-    },
-    uiState: {
-      settingsUIState,
-      settingsEdittableUser
-    }
-  } = state;
-  const users = allIds.map((id) => byId[id]);
-  return {
-    users,
-    activeUserData: byId[activeUserID],
-    activeUserID,
-    settingsUIState,
-    settingsEdittableUser
-  };
-};
+const mapStateToProps = (state) => ({
+  users: usersSelector(state),
+  activeUserData: activeUserSelector(state),
+  activeUserID: activeUserIDSelector(state),
+  settingsUIState: settingsUIStateSelector(state),
+  settingsEdittableUser: settingsEdittableUserSelector(state)
+});
 
 const actionCreators = {
   addUser: actions.addUser,

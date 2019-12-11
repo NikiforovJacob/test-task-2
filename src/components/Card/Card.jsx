@@ -9,8 +9,6 @@ import {
   CardDescription
 } from './CardStyle';
 
-const mapStateToProps = () => ({});
-
 const actionCreators = {
   updateCardData: actions.updateCardData
 };
@@ -41,4 +39,4 @@ class Card extends Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Card);
+export default connect(() => ({}), actionCreators)(Card);

@@ -4,6 +4,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import * as actions from '../../redux/actions/index';
+import {
+  usersSelector,
+  isActiveUserSelectorsShownSelector,
+  activeUserIDSelector,
+  activeUserSelector
+} from '../../redux/selectors';
 
 import {
   Frame,
@@ -25,17 +31,12 @@ import iconUserMale from '../../icons/user_male.svg';
 import iconUserFemale from '../../icons/user_female.svg';
 import iconUserOther from '../../icons/user_other.svg';
 
-const mapStateToProps = (state) => {
-  const { users: { byId, allIds, activeUserID }, uiState: { isActiveUserSelectorsShown } } = state;
-  const users = allIds.map((id) => byId[id]);
-  const activeUser = (activeUserID === null) ? null : byId[activeUserID];
-  return {
-    users,
-    activeUser,
-    activeUserID,
-    isActiveUserSelectorsShown
-  };
-};
+const mapStateToProps = (state) => ({
+  users: usersSelector(state),
+  activeUser: activeUserSelector(state),
+  activeUserID: activeUserIDSelector(state),
+  isActiveUserSelectorsShown: isActiveUserSelectorsShownSelector(state)
+});
 
 const actionCreators = {
   activateUser: actions.activateUser,
@@ -64,7 +65,6 @@ class FrameOfDashbord extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ height: window.innerHeight })
     window.addEventListener('resize', this.updateWindowDimensions);
   }
 

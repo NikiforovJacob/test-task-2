@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
+import { authorizationSelector, openedCardDescriptionSelector } from '../../redux/selectors';
 import { getObjectFromSessionStorage } from '../../utils/utils';
 
 import Login from '../Login/Login';
@@ -15,10 +16,10 @@ import FrameOfDashbord from '../FrameOfDashbord/FrameOfDashbord';
 import Dashbord from '../Dashboard/Dashbord';
 import CardContent from '../CardContent/CardContent';
 
-const mapStateToProps = (state) => {
-  const { authorization: { isAuthorized }, uiState: { openedCardDescription } } = state;
-  return { isAuthorized, openedCardDescription };
-};
+const mapStateToProps = (state) => ({
+  isAuthorized: authorizationSelector(state),
+  openedCardDescription: openedCardDescriptionSelector(state)
+});
 
 const actionCreators = {
   initializeUsersState: actions.initializeUsersState

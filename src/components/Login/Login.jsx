@@ -6,11 +6,6 @@ import FieldInput from '../FieldInput/FieldInput';
 
 import { Container, Form, Button } from './LoginStyle';
 
-const mapStateToProps = (state) => {
-  const { authorization: { auth } } = state;
-  return { auth };
-};
-
 const actionCreators = {
   authorize: actions.authorize
 };
@@ -58,7 +53,7 @@ class Login extends React.Component {
   }
 }
 
-const ConnectedLoginForm = connect(mapStateToProps, actionCreators)(Login);
+const ConnectedLoginForm = connect(() => ({}), actionCreators)(Login);
 export default reduxForm({
   form: 'loginForm',
   validate

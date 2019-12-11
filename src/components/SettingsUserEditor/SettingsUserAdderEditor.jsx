@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../redux/actions/index';
 import { selectCardsIDs } from '../../Data/data';
+import {
+  settingsUIStateSelector,
+  usersIdsSelector,
+  editableUserSelector
+} from '../../redux/selectors';
 import FieldInput from '../FieldInput/FieldInput';
 import {
   Header,
@@ -14,12 +19,18 @@ import {
 } from './SettingsUserAdderEditorStyle';
 
 const mapStateToProps = (state) => {
-  const { users: { byId, allIds }, uiState: { settingsUIState, settingsEdittableUser } } = state;
+  const { uiState: { settingsUIState } } = state;
   if (settingsUIState === 'editUser') {
-    const editableUser = byId[settingsEdittableUser];
-    return { initialValues: editableUser, editableUser, settingsUIState };
+    return {
+      initialValues: editableUserSelector(state),
+      editableUser: editableUserSelector(state),
+      settingsUIState: settingsUIStateSelector(state)
+    };
   }
-  return { allIds, settingsUIState };
+  return {
+    allIds: usersIdsSelector(state),
+    settingsUIState: settingsUIStateSelector(state)
+  };
 };
 
 const actionCreators = {
