@@ -34,9 +34,6 @@ const getUsersState = (state) => state.users;
 export const showedCardsSelector = createSelector(
   getUsersState,
   ({ byId, activeUserID }) => {
-    if (!Object.prototype.hasOwnProperty.call(byId, activeUserID)) {
-      return { showedCards: [] };
-    }
     const activeUserCardsIDs = byId[activeUserID].userCardsIDs;
     return matchCardsDescriptionsByIDs(activeUserCardsIDs);
   }
