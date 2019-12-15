@@ -60,8 +60,8 @@ const validate = (values) => {
   return errors;
 };
 
-class SettingsUserAdderEditor extends React.Component {
-  handleEditUser = ({
+const SettingsUserAdderEditor = (props) => {
+  const handleEditUser = ({
     firstName,
     secondName,
     patronymic,
@@ -69,7 +69,7 @@ class SettingsUserAdderEditor extends React.Component {
     email,
     gender
   }) => {
-    const { editUser, initialValues } = this.props;
+    const { editUser, initialValues } = props;
     const user = {
       ...initialValues,
       firstName,
@@ -80,9 +80,9 @@ class SettingsUserAdderEditor extends React.Component {
       about
     };
     editUser({ user });
-  }
+  };
 
-  handleAddUser = ({
+  const handleAddUser = ({
     firstName,
     secondName,
     patronymic,
@@ -90,7 +90,7 @@ class SettingsUserAdderEditor extends React.Component {
     email,
     gender
   }) => {
-    const { addUser, allIds, reset } = this.props;
+    const { addUser, allIds, reset } = props;
     const user = {
       id: allIds.length === 0 ? 1 : (allIds[0] + 1),
       firstName,
@@ -103,101 +103,99 @@ class SettingsUserAdderEditor extends React.Component {
     };
     addUser({ user });
     reset();
-  }
+  };
 
-  render() {
-    const { handleSubmit, editableUser, settingsUIState } = this.props;
+  const { handleSubmit, editableUser, settingsUIState } = props;
 
-    const headerOfEditor = (editableUserData) => (
-      <Header>{`Edit of ${editableUserData.firstName}`}</Header>
-    );
-    const headerOfAdder = <Header>Add new user</Header>;
+  const headerOfEditor = (editableUserData) => (
+    <Header>{`Edit of ${editableUserData.firstName}`}</Header>
+  );
+  const headerOfAdder = <Header>Add new user</Header>;
 
-    return (
-      <div>
-        <form onSubmit={handleSubmit(settingsUIState === 'addUser' ? this.handleAddUser : this.handleEditUser)}>
-          {settingsUIState === 'addUser' ? headerOfAdder : headerOfEditor(editableUser)}
+  return (
+    <div>
+      <form onSubmit={handleSubmit(settingsUIState === 'addUser' ? handleAddUser : handleEditUser)}>
+        {settingsUIState === 'addUser' ? headerOfAdder : headerOfEditor(editableUser)}
+        <div>
           <div>
-            <div>
-              <Field
-                name="firstName"
-                label="First name"
-                component={FieldInput}
-                type="text"
-              />
-            </div>
+            <Field
+              name="firstName"
+              label="First name"
+              component={FieldInput}
+              type="text"
+            />
           </div>
+        </div>
+        <div>
           <div>
-            <div>
-              <Field
-                name="secondName"
-                label="Second name"
-                component={FieldInput}
-                type="text"
-              />
-            </div>
+            <Field
+              name="secondName"
+              label="Second name"
+              component={FieldInput}
+              type="text"
+            />
           </div>
+        </div>
+        <div>
           <div>
-            <div>
-              <Field
-                name="patronymic"
-                label="Patronymic"
-                component={FieldInput}
-                type="text"
-              />
-            </div>
+            <Field
+              name="patronymic"
+              label="Patronymic"
+              component={FieldInput}
+              type="text"
+            />
           </div>
+        </div>
+        <div>
           <div>
-            <div>
-              <Field
-                name="email"
-                component={FieldInput}
-                type="email"
-                label="Email"
-              />
-            </div>
+            <Field
+              name="email"
+              component={FieldInput}
+              type="email"
+              label="Email"
+            />
           </div>
-          <InputContainer>
-            <InputLabelContainer>
-              <label htmlFor="gender">Gender</label>
-            </InputLabelContainer>
-            <div>
-              <InputRadioLabelContainer>
-                <Field id="gender" name="gender" required component="input" type="radio" value="male" />
-                {' '}
-                Male
-              </InputRadioLabelContainer>
-              <InputRadioLabelContainer>
-                <Field id="gender" name="gender" required component="input" type="radio" value="female" />
-                {' '}
-                Female
-              </InputRadioLabelContainer>
-              <InputRadioLabelContainer>
-                <Field id="gender" name="gender" required component="input" type="radio" value="other" />
-                {' '}
-                Other
-              </InputRadioLabelContainer>
-            </div>
-          </InputContainer>
-          <InputContainer>
-            <InputLabelContainer>
-              <label htmlFor="about">About you</label>
-            </InputLabelContainer>
-            <div>
-              <InputTextArea
-                id="about"
-                name="about"
-                placeholder="About you"
-                component="textarea"
-              />
-            </div>
-          </InputContainer>
-          <Button type="submit" value={settingsUIState === 'addUser' ? 'Add' : 'Edit'} />
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+        <InputContainer>
+          <InputLabelContainer>
+            <label>Gender</label>
+          </InputLabelContainer>
+          <div>
+            <InputRadioLabelContainer>
+              <Field name="gender" required component="input" type="radio" value="male" />
+              {' '}
+              Male
+            </InputRadioLabelContainer>
+            <InputRadioLabelContainer>
+              <Field name="gender" required component="input" type="radio" value="female" />
+              {' '}
+              Female
+            </InputRadioLabelContainer>
+            <InputRadioLabelContainer>
+              <Field name="gender" required component="input" type="radio" value="other" />
+              {' '}
+              Other
+            </InputRadioLabelContainer>
+          </div>
+        </InputContainer>
+        <InputContainer>
+          <InputLabelContainer>
+            <label htmlFor="about">About you</label>
+          </InputLabelContainer>
+          <div>
+            <InputTextArea
+              id="about"
+              name="about"
+              placeholder="About you"
+              component="textarea"
+            />
+          </div>
+        </InputContainer>
+        <Button type="submit" value={settingsUIState === 'addUser' ? 'Add' : 'Edit'} />
+      </form>
+    </div>
+  );
+};
 
 export default connect(mapStateToProps, actionCreators)(
   reduxForm({

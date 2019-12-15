@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../redux/actions/index';
 import { openedCardDescriptionSelector, openedCardDataSelector, cardDataRequestSelector } from '../../redux/selectors';
@@ -33,13 +33,15 @@ const actionCreators = {
   closeCard: actions.closeCard
 };
 
-class CardContent extends Component {
-  handleCloseCard = () => {
-    const { closeCard } = this.props;
-    closeCard();
-  }
+const CardContent = (props) => {
+  const { openedCardDescription, openedCardData, cardDataRequestState } = props;
 
-  renderCardContent = (openedCardData) => {
+  const handleCloseCard = () => {
+    const { closeCard } = props;
+    closeCard();
+  };
+
+  const renderCardContent = (cardData) => {
     const getContentType = {
       text: (value, i, key) => (
         <ContentItemText key={key} isDark={i % 2 === 0}>
@@ -71,7 +73,7 @@ class CardContent extends Component {
       )
     };
 
-    const namesOfColumnsComponents = openedCardData[0].filter(
+    const namesOfColumnsComponents = cardData[0].filter(
       (item) => item.fieldName !== 'id'
     ).map(
       (item, i) => {
@@ -94,11 +96,11 @@ class CardContent extends Component {
       }
     );
 
-    const firstFixedColumnComponents = openedCardData.map(
+    const firstFixedColumnComponents = cardData.map(
       (item, i) => getContentType[item[1].type](item[1].value, i, `key${i + item[1].value + item[2].value}`)
     );
 
-    const bodyTableDataComponents = openedCardData.map(
+    const bodyTableDataComponents = cardData.map(
       (rowData, i) => rowData.map(
         (cellData, j) => (
           j === 1 || j === 2 ? null : getContentType[cellData.type](cellData.value, i, `r${i}c${j}`)
@@ -121,45 +123,42 @@ class CardContent extends Component {
     );
   };
 
-  renderCardContentLoading = () => (
+  const renderCardContentLoading = () => (
     <ContentCap>Data is loading...</ContentCap>
   );
 
-  renderCardContentError = () => (
+  const renderCardContentError = () => (
     <ContentCap>Something went wrong. Sorry.</ContentCap>
   );
 
-  render() {
-    const { openedCardDescription, openedCardData, cardDataRequestState } = this.props;
 
-    const getContentRender = {
-      requested: this.renderCardContentLoading,
-      finished: this.renderCardContent,
-      failed: this.renderCardContentError
-    };
+  const getContentRender = {
+    requested: renderCardContentLoading,
+    finished: renderCardContent,
+    failed: renderCardContentError
+  };
 
-    return (
-      <>
-        <ControlsContainer>
-          <BackButton onClick={this.handleCloseCard}>
-            <img
-              src={iconUndo}
-              alt="settings icon"
-              height="35px"
-              width="35px"
-            />
-          </BackButton>
-        </ControlsContainer>
-        <CardDescriptionContainer>
-          <HeaderDescription>{openedCardDescription.name}</HeaderDescription>
-          <CardDescription>{openedCardDescription.description}</CardDescription>
-        </CardDescriptionContainer>
-        <ContentContainer>
-          {getContentRender[cardDataRequestState](openedCardData)}
-        </ContentContainer>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <ControlsContainer>
+        <BackButton onClick={handleCloseCard}>
+          <img
+            src={iconUndo}
+            alt="settings icon"
+            height="35px"
+            width="35px"
+          />
+        </BackButton>
+      </ControlsContainer>
+      <CardDescriptionContainer>
+        <HeaderDescription>{openedCardDescription.name}</HeaderDescription>
+        <CardDescription>{openedCardDescription.description}</CardDescription>
+      </CardDescriptionContainer>
+      <ContentContainer>
+        {getContentRender[cardDataRequestState](openedCardData)}
+      </ContentContainer>
+    </>
+  );
+};
 
 export default connect(mapStateToProps, actionCreators)(CardContent);
