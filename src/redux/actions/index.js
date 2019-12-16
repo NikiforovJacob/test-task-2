@@ -22,7 +22,7 @@ export const updateCardDataRequest = createAction('CARD_DATA_UPDATE_REQUEST');
 export const updateCardDataSuccess = createAction('CARD_DATA_UPDATE_SUCCESS');
 export const updateCardDataFailure = createAction('CARD_DATA_UPDATE_FAILURE');
 
-export const updateCardData = (openedCardDescription) => async (dispatch) => {
+export const updateCardData = (openedCardDescription) => (dispatch) => {
   dispatch(setOpenedCard({ openedCardDescription }));
   dispatch(updateCardDataRequest());
   const cb = (openedCardData) => dispatch(updateCardDataSuccess({ openedCardData }));

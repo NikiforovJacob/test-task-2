@@ -22,13 +22,13 @@ const Dashbord = (props) => {
         cardData={cardData}
       />
     )
-  )
+  );
 
   return (
     <Container>
       {showedCards === null ? 'Please, add users in the settings and choose user in the question button' : renderCards(showedCards)}
     </Container>
   );
-}
+};
 
 export default connect(mapStateToProps)(Dashbord);

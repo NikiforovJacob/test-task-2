@@ -12,17 +12,17 @@ const allCardsSources = {
 
 export const selectCardsIDs = (amountOfSources) => {
   const allCardsSourcesKeys = Object.keys(allCardsSources);
-  const iter = (acc, allCardsSourcesKeys) => {
+  const iter = (acc, keys) => {
     if (acc.length === amountOfSources) {
       return acc;
     }
-    const randomNumOfSource = Math.floor(Math.random() * allCardsSourcesKeys.length);
-    const newAllCardsSourcesHead = allCardsSourcesKeys.slice(0, randomNumOfSource);
-    const newAllCardsSourcesReast = allCardsSourcesKeys.slice(
-      randomNumOfSource + 1, allCardsSourcesKeys.length
+    const randomNumOfSource = Math.floor(Math.random() * keys.length);
+    const newAllCardsSourcesHead = keys.slice(0, randomNumOfSource);
+    const newAllCardsSourcesReast = keys.slice(
+      randomNumOfSource + 1, keys.length
     );
     const newAllCardsSources = [...newAllCardsSourcesHead, ...newAllCardsSourcesReast];
-    return iter([...acc, allCardsSourcesKeys[randomNumOfSource]], newAllCardsSources);
+    return iter([...acc, keys[randomNumOfSource]], newAllCardsSources);
   };
   return iter([], allCardsSourcesKeys);
 };

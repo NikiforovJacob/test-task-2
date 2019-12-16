@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../redux/actions/index';
-import { selectCardsIDs } from '../../Data/data';
+import { selectCardsIDs } from '../../fetcherData/cardsInterface';
 import {
   settingsUIStateSelector,
   usersIdsSelector,

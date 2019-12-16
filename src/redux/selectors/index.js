@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { matchCardsDescriptionsByIDs } from '../../Data/data';
+import { matchCardsDescriptionsByIDs } from '../../fetcherData/cardsInterface';
 
 const getAuthorizationState = (state) => state.authorization;
 

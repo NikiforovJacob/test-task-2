@@ -1,4 +1,4 @@
-import prepearingCardData from './utils';
+import prepearingCardData from './fetcherData';
 
 const generateUrlQuery = (url, num, from) => `${url}&start=${from + num - 1}&limit=1`;
 
