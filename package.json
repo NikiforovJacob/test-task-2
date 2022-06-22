@@ -20,7 +20,7 @@
   "homepage": "https://github.com/NikiforovJacob/test-task-2#readme",
   "dependencies": {
     "@emotion/styled": "^10.0.22",
-    "async": "^3.1.0",
+    "async": "^3.2.2",
     "ramda": "^0.26.1",
     "react": "^16.11.0",
     "react-click-outside": "^3.0.1",
